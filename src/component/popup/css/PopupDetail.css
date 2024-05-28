@@ -148,8 +148,8 @@ height: auto;
     white-space: pre-wrap;
 }
 
-.dbox:hover{
-    filter: brightness(0.8);
+.time{
+    white-space: pre-wrap;
 }
 
 .detailBox{

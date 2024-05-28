@@ -96,7 +96,7 @@ const PopupDetail = () => {
           <div className="detail-date">{popup.popupPeriod}</div>
           <div className="detail-lo">
             <img src={require("../../assets/images/location.png")} />
-            {popup.popupCity} {popup.popupLocal} {popup.popupLocation}
+            {popup.popupLocation}
           </div>
         </div>
 
@@ -109,7 +109,7 @@ const PopupDetail = () => {
                 <img
                   className="swiper-img"
                   src={imageUrl}
-                  alt={`Image ${index}`}
+                  alt={`${imageUrl}`}
                 />
               </SwiperSlide>
             ))}
@@ -118,14 +118,15 @@ const PopupDetail = () => {
 
         <div className="detailBox">
           <div className="detail-title">운영시간</div>
-          <div className="detail-content">
-          {popup.popupTime}
+          <div className="detail-content time"> 
+          {popup.popupTime }
+         
           </div>
         </div>
 
         <div className="detailBox">
           <div className="detail-title">팝업스토어 소개</div>
-          <div className="detail-content dbox">{popup.popupIntro}</div>
+          <div className="detail-content dbox">{popup.popupIntro} </div>
         </div>
 
         <div className="detailBox">
