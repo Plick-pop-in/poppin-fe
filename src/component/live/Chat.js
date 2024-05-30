@@ -1,6 +1,7 @@
 import React from "react";
 import "./css/Chat.css";
 import ChatBox from "./ChatBox";
+import ChatScreen from "./ChatScreen"; // ChatScreen 컴포넌트를 import합니다.
 
 const Chat = () => {
     return (
@@ -17,9 +18,11 @@ const Chat = () => {
             <div className="chat-white-background">
                 <div className="user-chat-list">
                     <div className="user-chat-container">
-                        <ChatBox
-                        />
+                        <ChatBox />
                     </div>
+                </div>
+                <div style={{ marginLeft: "40px" }}> {/* ChatScreen을 오른쪽으로 40px 이동시킵니다. */}
+                    <ChatScreen />
                 </div>
             </div>
         </div>
