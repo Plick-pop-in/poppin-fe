@@ -5,16 +5,20 @@ import dbjson from "../popup/popupdb.json";
 
 const Live = () => {
     const [live, setLive] = useState(null);
+    const [keyword, setKeyword] = useState(""); // 1. 입력된 키워드 상태 추가
 
     const getLive = async () => {
-        setLive(dbjson.popup);
+        // API 호출 시 키워드 전달
+        const response = await fetch(`/api/live?keyword=${keyword}`);
+        const data = await response.json();
+        setLive(data); // API 응답으로 받은 데이터로 상태 업데이트
     };
 
     useEffect(() => {
         setLive(dbjson);
     }, []);
 
-    if (live == null) {
+    if (live === null) {
         return null;
     }
 
@@ -33,8 +37,10 @@ const Live = () => {
                 <input
                     className="list-search"
                     placeholder="search for anything"
+                    value={keyword} // 입력된 키워드 표시
+                    onChange={(e) => setKeyword(e.target.value)} // 입력된 키워드 업데이트
                 ></input>
-                <button className="searchBtn" type="button">
+                <button className="searchBtn" type="button" onClick={getLive}> {/* 2. 검색 버튼 클릭 시 API 호출 */}
                     <img src={require("../../assets/images/searchBtn.png")} />
                 </button>
             </div>
@@ -46,6 +52,7 @@ const Live = () => {
                     <div className="list-container">
                         {live.map((popup) => (
                             <LiveBox
+                                key={popup.id} // 각 항목에 고유한 키 할당
                                 id={popup.id}
                                 name={popup.name}
                                 start_date={popup.start_date}

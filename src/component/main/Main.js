@@ -10,24 +10,61 @@ SwiperCore.use([Autoplay]);
 
 const Main = () => {
   const [images, setImages] = useState([]);
+  const [top3Popups, setTop3Popups] = useState([]);
+  const [inProgressPopups, setInProgressPopups] = useState([]); // 진행중인 팝업 데이터 저장용 상태
 
   useEffect(() => {
     const fetchImages = async () => {
       try {
         const response = await axios.get("http://localhost:8080/v1/popup/random-images");
         console.log("API response:", response.data); // 디버깅을 위해 응답을 출력합니다.
-        // 올바른 데이터 설정
         if (response.data && response.data.data && Array.isArray(response.data.data.popupImgUrls)) {
           setImages(response.data.data.popupImgUrls);
         } else {
-          console.error('Invalid data format:', response.data);
+          console.error('잘못된 데이터 형식', response.data);
         }
       } catch (error) {
-        console.error("Error fetching images:", error);
+        console.error("응답 가져오기 실패", error);
       }
     };
 
     fetchImages();
+  }, []);
+
+  useEffect(() => {
+    const fetchTop3Popups = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/v1/popup/top3");
+        console.log("Top3 API response:", response.data);
+        if (response.data && Array.isArray(response.data.data)) {
+          setTop3Popups(response.data.data);
+        } else {
+          console.error('잘못된 데이터 형식', response.data);
+        }
+      } catch (error) {
+        console.error("응답 가져오기 실패", error);
+      }
+    };
+
+    fetchTop3Popups();
+  }, []);
+
+  useEffect(() => {
+    const fetchInProgressPopups = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/v1/popup/in-progress");
+        console.log("In-Progress Popups API response:", response.data);
+        if (response.data && Array.isArray(response.data.data)) {
+          setInProgressPopups(response.data.data);
+        } else {
+          console.error('잘못된 데이터 형식', response.data);
+        }
+      } catch (error) {
+        console.error("응답 가져오기 실패", error);
+      }
+    };
+
+    fetchInProgressPopups();
   }, []);
 
   useEffect(() => {
@@ -69,10 +106,17 @@ const Main = () => {
         사람들에게 인기 있는 팝업
       </div>
       <div className="popup-section" style={{ display: "flex", flexDirection: "row", justifyContent: "center", marginTop: "30px" }}>
-        {/* TpBox 컴포넌트 사용 */}
-        <TpBox imgSrc={images[0]} productName="눙눙일" popupPeriod="2024.09.02 - 2024.09.10" style={{ marginRight: "32px" }} />
-        <TpBox imgSrc={images[1]} productName="눙눙이" popupPeriod="2024.09.02 - 2024.09.10" style={{ marginRight: "32px" }} />
-        <TpBox imgSrc={images[2]} productName="눙눙삼" popupPeriod="2024.09.02 - 2024.09.10" />
+        {top3Popups.map((popup, index) => (
+          <TpBox
+            key={index}
+            popupId={popup.popupId} // popupId를 전달
+            imgSrc={popup.popupImage}
+            productName={popup.popupName}
+            popupPeriod={popup.popupPeriod}
+            likeCount={popup.likeCount}
+            style={{ marginRight: index < top3Popups.length - 1 ? "32px" : "0" }}
+          />
+        ))}
       </div>
       
       {/* 진행중인 전국 팝업 정보 */}
@@ -81,12 +125,15 @@ const Main = () => {
         <div>진행중인 전국 팝업을 둘러보세요.</div>
       </div>
       <div className="whbox-section" style={{ display: "flex", flexDirection: "row", justifyContent: "center", marginTop: "30px" }}>
-        {/* WholeBox 컴포넌트 사용 */}
-        <WpBox imgSrc={images[0]} productName="진행중" popupPeriod="2024.09.02 - 2024.09.10" style={{ marginRight: "111px" }} />
-        <WpBox imgSrc={images[1]} productName="전국" popupPeriod="2024.09.02 - 2024.09.10" style={{ marginRight: "111px" }} />
-        <WpBox imgSrc={images[2]} productName="팝업" popupPeriod="2024.09.02 - 2024.09.10" style={{ marginRight: "111px" }} />
-        <WpBox imgSrc={images[3]} productName="리스트" popupPeriod="2024.09.02 - 2024.09.10" style={{ marginRight: "111px" }} />
-        <WpBox imgSrc={images[4]} productName="5개" popupPeriod="2024.09.02 - 2024.09.10"  />
+        {inProgressPopups.slice(0, 5).map((popup, index) => (
+          <WpBox
+            key={index}
+            imgSrc={popup.popupImageUrl}
+            productName={popup.popupName}
+            popupPeriod={popup.popupPeriod}
+            style={{ marginRight: index < 4 ? "111px" : "0" }}
+          />
+        ))}
       </div>
       <div className="main-bottom">
         <button className="mainBtn">Load more</button>
