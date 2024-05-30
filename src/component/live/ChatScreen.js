@@ -1,5 +1,5 @@
 import React from "react";
-import "./css/ChatScreen.css"; // ChatScreen에 관련된 CSS 파일을 import합니다.
+import "./css/ChatScreen.css"; 
 
 const ChatScreen = () => {
     return (

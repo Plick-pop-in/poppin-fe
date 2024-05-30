@@ -1,7 +1,7 @@
 import React from "react";
 import "./css/Chat.css";
 import ChatBox from "./ChatBox";
-import ChatScreen from "./ChatScreen"; // ChatScreen 컴포넌트를 import합니다.
+import ChatScreen from "./ChatScreen";
 
 const Chat = () => {
     return (
@@ -16,14 +16,17 @@ const Chat = () => {
                 </div>
             </div>
             <div className="chat-white-background">
-                <div className="user-chat-list">
-                    <div className="user-chat-container">
-                        <ChatBox />
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                    <div className="user-chat-list">
+                        <div className="user-chat-container">
+                            <ChatBox />
+                        </div>
+                    </div>
+                    <div style={{ marginLeft: "40px", marginTop: "33px" }}> 
+                        <ChatScreen />
                     </div>
                 </div>
-                <div style={{ marginLeft: "40px" }}> {/* ChatScreen을 오른쪽으로 40px 이동시킵니다. */}
-                    <ChatScreen />
-                </div>
+                <div className="footer-margin" style={{ marginBottom: "20px" }} /> {/* 여기에 마진을 추가 */}
             </div>
         </div>
     );
