@@ -72,7 +72,7 @@ const PopupList = () => {
   return (
     <div>
       <div className="popupList">
-        <div className="list-top">
+        <div className="poplist-top">
           <span>
             <img src={require("../../assets/images/search.png")} alt="search" />
           </span>
@@ -108,7 +108,9 @@ const PopupList = () => {
               </div>
             </div>
           ) : (
-            <div></div>
+            <div>
+              <img src="/images/popin.png" alt="search"  height="200" style={{ position: 'relative', filter: 'grayscale(100%) opacity(0.3)', margin:'10px', top:'25%', left:'30%'}}/>
+            </div>
           )}
           <div className="list-right right">
             <PopupFilter onFilterChange={handleFilterChange} />
