@@ -13,14 +13,20 @@ const Live = () => {
     // Live 가져오는 함수
     const getLive = async () => {
         try {
-            const url = `${apiURLs.live}/livelist?keyword=${keywordValue}`;
+            const requestData = {
+                keyword: keywordValue,
+            };
+            
+            const url = `${apiURLs.live}?keyword=${keywordValue}`;
+            console.log("Fetching URL:", url);
             const response = await axios.get(url);
             setLive(response.data.data);
             console.log(response.data.data);
         } catch (error) {
             console.error("Error: fetching live data", error);
-        }
+    }
     };
+
 
     // 검색 버튼 클릭 시 함수 호출
     const onChangeKeyword = () => {
@@ -36,8 +42,8 @@ const Live = () => {
         if (savedKeywordValue) {
             setKeywordValue(savedKeywordValue);
         }
-        getLive(); // Load live data on initial render
-    }, [keywordValue]); // Add keywordValue as a dependency to re-fetch on change
+        getLive();
+    }, []); 
 
     useEffect(() => {
         if (live.length === 0) {
@@ -62,8 +68,8 @@ const Live = () => {
                     placeholder="search for anything"
                     id="keywordValue"
                     value={keywordValue} // 입력된 키워드 표시
-                    onChange={(e) => setKeywordValue(e.target.value)} // 입력된 키워드 업데이트
-                />
+                    onChange ={onChangeKeyword}
+                ></input>
                 <button className="searchBtn" type="button" onClick={onChangeKeyword}> {/* 2. 검색 버튼 클릭 시 API 호출 */}
                     <img src={require("../../assets/images/searchBtn.png")} alt="Search Button" />
                 </button>
@@ -76,15 +82,14 @@ const Live = () => {
                     <div className="list-container">
                         {live.map((popup) => (
                             <LiveBox
-                                key={popup.id} // 각 항목에 고유한 키 할당
-                                id={popup.id}
-                                name={popup.name}
-                                start_date={popup.start_date}
-                                end_date={popup.end_date}
-                                city={popup.city}
-                                local={popup.local}
-                                location={popup.location}
-                                image={popup.image}
+                                image = {popup.popupImage}
+                                name={popup.popupName}
+                                location={popup.popupLocation}
+                                city={popup.popupCity}
+                                local={popup.popupLocal}
+                                period = {popup.popupPreriod}
+                                joinedPeople = {popup.joinedPeopleCnt}
+                                
                             />
                         ))}
                     </div>
