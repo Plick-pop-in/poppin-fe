@@ -5,7 +5,7 @@ import LogoutComponent from '../myPage/module/LogoutComponenet';
 import useCustomLogin from '../myPage/module/useCustomLogin';
 
 const Header = () => {
-  const {moveToLogin} = useCustomLogin()
+  const {isLogin, moveToLogin} = useCustomLogin()
   const handleLogoClick = () => {
     window.location.href = '/main'; 
   };
@@ -33,7 +33,8 @@ const Header = () => {
         <div className="header-buttons">
           <a href="/popup" className="header-button">Popup</a>
           <a href="/map" className="header-button">Map</a>
-          <a href="/live" className="header-button">Live</a>
+          <a href="/live" className={`header-button ${!isLogin ? 'with-margin' : ''}`}>Live</a>
+          {isLogin && <a href="/mypage" className="header-button with-margin">Mypage</a>}
         </div>
         {loginState.email ?
         <><LogoutComponent></LogoutComponent></> :

@@ -9,6 +9,7 @@ import "swiper/css/autoplay";
 import "swiper/scss/navigation";
 import "swiper/scss/pagination";
 import "./css/PopupDetail.css";
+import apiURLs from "../../apiURL";
 
 SwiperCore.use([Navigation, Pagination, Autoplay]);
 
@@ -59,7 +60,7 @@ const PopupDetail = () => {
       }
       
       try {
-        const response = await axios.get("http://localhost:8080/v1/popup/popupdetail/"+ popupId );
+        const response = await axios.get( apiURLs.popupdetail+ popupId );
         setPopup(response.data.data);
       } catch (error) {
         console.error("Error fetching popup detail:", error);

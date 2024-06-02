@@ -3,6 +3,7 @@ import "./css/PopupList.css";
 import PopupBox from "./PopupBox";
 import PopupFilter from "./PopupFilter";
 import axios from "axios";
+import apiURLs from "../../apiURL";
 
 const PopupList = () => {
   const [popup, setPopup] = useState([]);
@@ -24,7 +25,7 @@ const PopupList = () => {
         search: searchValue,
       };
 
-      const url = `http://localhost:8080/v1/popup/popuplist?${requestData.categories}&period=${requestData.period}&search=${requestData.search}`;
+      const url = `${apiURLs.popuplist}?${requestData.categories}&period=${requestData.period}&search=${requestData.search}`;
       const response = await axios.get(url);
       setPopup(response.data.data);
       //console.log(response.data.data);

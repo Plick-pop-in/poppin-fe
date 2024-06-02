@@ -5,7 +5,7 @@ import dbjson from "../popup/popupdb.json";
 
 const Live = () => {
     const [live, setLive] = useState(null);
-    const [keyword, setKeyword] = useState(""); // 1. 입력된 키워드 상태 추가
+    const [keyword, setKeyword] = useState(""); // 검색 값
 
     const getLive = async () => {
         // API 호출 시 키워드 전달

@@ -5,6 +5,7 @@ import "swiper/swiper-bundle.css";
 import "./css/Main.css";
 import TpBox from "./TpBox";
 import WpBox from "./WpBox";
+import apiURLs from "../../apiURL";
 
 SwiperCore.use([Autoplay]);
 
@@ -16,12 +17,12 @@ const Main = () => {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/v1/popup/random-images");
+        const response = await axios.get(apiURLs.randomImages);
         console.log("API response:", response.data); // 디버깅을 위해 응답을 출력합니다.
         if (response.data && response.data.data && Array.isArray(response.data.data.popupImgUrls)) {
           setImages(response.data.data.popupImgUrls);
         } else {
-          console.error('잘못된 데이터 형식', response.data);
+          console.error("잘못된 데이터 형식", response.data);
         }
       } catch (error) {
         console.error("응답 가져오기 실패", error);
@@ -34,12 +35,12 @@ const Main = () => {
   useEffect(() => {
     const fetchTop3Popups = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/v1/popup/top3");
+        const response = await axios.get(apiURLs.top3);
         console.log("Top3 API response:", response.data);
         if (response.data && Array.isArray(response.data.data)) {
           setTop3Popups(response.data.data);
         } else {
-          console.error('잘못된 데이터 형식', response.data);
+          console.error("잘못된 데이터 형식", response.data);
         }
       } catch (error) {
         console.error("응답 가져오기 실패", error);
@@ -52,12 +53,12 @@ const Main = () => {
   useEffect(() => {
     const fetchInProgressPopups = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/v1/popup/in-progress");
+        const response = await axios.get(apiURLs.inProgress);
         console.log("In-Progress Popups API response:", response.data);
         if (response.data && Array.isArray(response.data.data)) {
           setInProgressPopups(response.data.data);
         } else {
-          console.error('잘못된 데이터 형식', response.data);
+          console.error("잘못된 데이터 형식", response.data);
         }
       } catch (error) {
         console.error("응답 가져오기 실패", error);
@@ -102,9 +103,7 @@ const Main = () => {
       <div className="popup-text">
         <strong>진행중인 팝업 TOP3</strong>
       </div>
-      <div className="popup-text">
-        사람들에게 인기 있는 팝업
-      </div>
+      <div className="popup-text">사람들에게 인기 있는 팝업</div>
       <div className="popup-section" style={{ display: "flex", flexDirection: "row", justifyContent: "center", marginTop: "30px" }}>
         {top3Popups.map((popup, index) => (
           <TpBox
@@ -118,7 +117,7 @@ const Main = () => {
           />
         ))}
       </div>
-      
+
       {/* 진행중인 전국 팝업 정보 */}
       <div className="continue-text" style={{ marginTop: "30px", marginLeft: "56px", textAlign: "left" }}>
         <strong>진행중인 전국 팝업 정보</strong>

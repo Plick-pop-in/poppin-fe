@@ -1,8 +1,51 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal'
 import './css/Userinfo.css';
+import { useSelector, useDispatch } from 'react-redux';
+import { modifyMember } from './api/userApi';
+import useCustomLogin from "./module/useCustomLogin";
+import { login } from './slices/loginSlice';
+
+const initState = {
+    id: '',
+    email: '',
+    nickname: '',
+    name: '',
+}
 
 export default function UserInfo() {
+    const [member, setMember] = useState(initState)
+    const loginInfo = useSelector(state => state.loginSlice)
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        setMember({...loginInfo})
+    }, [loginInfo]);
+
+    const handleChange = (e) => {
+        member[e.target.name] = e.target.value
+        setMember({...member})
+    }
+    
+    const handleClickModify = async () => {
+        try {
+            await modifyMember(member);
+            alert('회원 정보가 성공적으로 수정되었습니다.');
+
+            dispatch(login(member));
+
+            // 닉네임을 성공적으로 수정했으므로 상태를 업데이트합니다.
+            setMember(prevState => ({
+                ...prevState,
+                nickname: member.nickname
+                
+            }));
+        } catch (error) {
+            console.error('회원 정보 수정 중 오류가 발생했습니다:', error);
+            alert('회원 정보 수정 중 오류가 발생했습니다.');
+        }
+    }
+
     const [point, setPoint] = useState(0); // 포인트 값을 상태로 관리
     const [isOpen, setIsOpen] = useState(false); // 비밀번호 변경 팝업 창 관리
 
@@ -40,7 +83,7 @@ export default function UserInfo() {
         <div className="userinfo-container">
             <div className="userinfo-content">
                 <img src={require('../../assets/images/ic_bigPerson.png')} alt='person icon' className="userinfo-image" />
-                <span className="userinfo-nickname">닉네임</span>
+                <span className="userinfo-nickname">{member.nickname}</span>
             </div>
             <div className="point-info">
                 <div style={{ color: '#B1B5C3', fontSize: '12px', marginBottom: '10px' }}>나의 포인트</div>
@@ -57,6 +100,8 @@ export default function UserInfo() {
                         name="email"
                         type={'text'}
                         placeholder="이메일"
+                        value={member.email}
+                        readOnly
                     />
                 </span>
                 <span style={{ flex: 1 }}></span>
@@ -67,6 +112,8 @@ export default function UserInfo() {
                         name="name"
                         type={'text'}
                         placeholder="이름"
+                        value={member.name}
+                        readOnly
                     />
                 </span>
             </div>
@@ -77,8 +124,10 @@ export default function UserInfo() {
                     name="nickname"
                     type={'text'}
                     placeholder="닉네임"
+                    value={member.nickname}
+                    onChange={handleChange}
                 />
-                <button className="changeButton" style={{ display: 'inline-block', marginLeft: '30px'}}>닉네임 변경</button>
+                <button className="changeButton" onClick={handleClickModify} style={{ display: 'inline-block', marginLeft: '30px'}}>닉네임 변경</button>
             </div>
             <div className="infoLabel">비밀번호</div>
             <button className="changeButton" onClick={openModal}>비밀번호 변경</button>

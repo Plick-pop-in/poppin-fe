@@ -12,29 +12,32 @@ function KakaoRedirect(props) {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (authCode) {
-            getAccessToken(authCode).then(accessToken => {
-                getMemberWithAccessToken(accessToken).then(result => {
-                    console.log("-------------");
-                    console.log(result);
-                    dispatch(login(result));
-
-                    // if (result && result.social) {
+        const fetchData = async () => {
+            try {
+                if (authCode) {
+                    console.log("Fetching access token...");
+                    const accessToken = await getAccessToken(authCode);
+                    console.log("Access token received:", accessToken);
+                    const memberInfo = await getMemberWithAccessToken(accessToken);
+                    console.log("Member info received:", memberInfo);
+                    dispatch(login(memberInfo));
+                    // if (memberInfo && memberInfo.social) {
                     //     moveToPath("/Mypage");
                     // } else {
                     //     moveToPath("/Main");
                     // }
-
                     moveToPath("/Main");
-                });
-            });
-        }
-    }, [authCode]); // <-- dispatch와 moveToPath를 종속성 배열에 포함시킴
+                }
+            } catch (error) {
+                console.error("Error during Kakao authentication:", error);
+            }
+        };
+
+        fetchData();
+    }, [authCode, dispatch, moveToPath]);
 
     return (
         <div>
-            <div>Kakao Login Redirect</div>
-            <div>{authCode}</div>
         </div>
     );
 }

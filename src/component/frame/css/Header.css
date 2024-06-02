@@ -49,9 +49,8 @@
   margin-right: 20px; 
 }
 
-/* Live 버튼과 Sign In 버튼 간의 간격 조절 */
-.header-buttons .header-button:nth-child(3) {
-  margin-right: 427px; /* Live 버튼 오른쪽 간격 조절 */
+.header-buttons .header-button.with-margin {
+  margin-right: 427px; /* 기본 간격 조절 */
 }
 
 /* 텍스트 버튼 클릭 또는 포커스 시 글씨색 변경 */
