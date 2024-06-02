@@ -87,7 +87,7 @@ const Live = () => {
                                 location={popup.popupLocation}
                                 city={popup.popupCity}
                                 local={popup.popupLocal}
-                                period = {popup.popupPreriod}
+                                period={popup.popupPeriod}
                                 joinedPeople = {popup.joinedPeopleCnt}
                                 
                             />

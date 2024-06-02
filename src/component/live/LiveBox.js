@@ -15,7 +15,7 @@ const LiveBox = (props) => {
             <div className="chat-box-content">
                 <div className="chat-box-basic-info">
                     <div className="chat-box-name"><strong>{props.name}</strong></div>
-                    <div className="chat-box-date">{props.start_date}-{props.end_date}</div>
+                    <div className="chat-box-date">{props.period}</div>
                     <div className="chat-box-address">{props.city} {props.local} {props.location}</div>
                 </div>
                 <div className="chat-box-join-info">
