@@ -60,7 +60,7 @@ const PopupDetail = () => {
       }
       
       try {
-        const response = await axios.get( apiURLs.popup+"/popupdetail/"+ popupId );
+        const response = await axios.get( apiURLs.popupdetail+ popupId );
         setPopup(response.data.data);
       } catch (error) {
         console.error("Error fetching popup detail:", error);
