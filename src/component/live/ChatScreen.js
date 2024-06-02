@@ -5,10 +5,11 @@ import "./css/ChatScreen.css";
 
 const ChatScreen = () => {
     const [messages, setMessages] = useState([]); // 채팅 메시지를 저장할 상태 변수
+    let client; // client 변수를 선언합니다.
 
     useEffect(() => {
         // STOMP 클라이언트 생성
-        const client = new Client({
+        client = new Client({
             brokerURL: "ws://localhost:8080/ws", // WebSocket 서버 URL을 지정합니다.
             debug: function (str) {
                 console.log(str);
@@ -42,6 +43,10 @@ const ChatScreen = () => {
         // STOMP 클라이언트를 통해 메시지 전송
         // 이 부분은 실제로 서버로 메시지를 전송하는 코드입니다.
         // 서버에서 메시지를 받으면 해당 메시지를 다시 받아올 수 있습니다.
+        client.publish({
+            destination: '/pub/chat.sendMessage', // 메시지를 보낼 엔드포인트 지정
+            body: JSON.stringify(message), // 메시지를 JSON 형태로 변환하여 전송
+        });
     };
 
     return (
@@ -68,7 +73,7 @@ const ChatScreen = () => {
                             content: "입력된 메시지", // 입력된 메시지
                             time: new Date().toISOString(), // 현재 시간을 ISO 포맷으로
                         };
-                        sendMessage(message);
+                        sendMessage(message); // sendMessage 함수 호출하여 메시지 전송
                     }}
                 >
                     <img src="/src/assets/images/ic_chat_send.png" alt="" />
