@@ -16,7 +16,7 @@
 }
 
 .chat-input {
-  width: 785px; 
+  width: 785px;
   height: 48px;
   flex-shrink: 0;
   border-radius: 8px;
@@ -25,11 +25,13 @@
   bottom: 63px; /* 기존의 48px에서 15px 추가 */
   left: 50%;
   transform: translateX(-50%);
-  display: flex;
-  align-items: center;
+  display: flex; /* 수정된 부분: 입력 상자와 버튼을 가로로 배치 */
+  align-items: center; /* 수정된 부분: 세로 중앙 정렬 */
+  justify-content: space-between; /* 수정된 부분: 입력 상자와 버튼을 좌우로 간격을 주어 배치 */
   padding: 0 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
 
 .chat-input input {
   flex: 1;
