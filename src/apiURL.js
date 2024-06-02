@@ -1,4 +1,6 @@
 const apiURLs = {
+    popuplist: "https://www.plick.shop/v1/popup/popuplist",
+    popupdetail: "https://www.plick.shop/v1/popup/popupdetail/",
     randomImages: "https://www.plick.shop/v1/popup/random-images",
     top3: "https://www.plick.shop/v1/popup/top3",
     inProgress: "https://www.plick.shop/v1/popup/in-progress",
