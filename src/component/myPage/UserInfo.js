@@ -3,7 +3,6 @@ import Modal from 'react-modal'
 import './css/Userinfo.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { modifyMember } from './api/userApi';
-import useCustomLogin from "./module/useCustomLogin";
 import { login } from './slices/loginSlice';
 
 const initState = {

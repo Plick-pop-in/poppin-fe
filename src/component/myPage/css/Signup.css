@@ -137,3 +137,10 @@
 .loginLink {
     color: #47ABD9;
 }
+
+.error {
+    color: #718096;  /* 오류 메시지 색상 */
+    font-size: 11px;  /* 텍스트 크기 */
+    margin-bottom: 10px;  /* 위쪽 마진 */
+    margin-left: 5px;
+}
