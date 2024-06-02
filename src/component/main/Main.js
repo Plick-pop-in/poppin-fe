@@ -6,10 +6,12 @@ import "./css/Main.css";
 import TpBox from "./TpBox";
 import WpBox from "./WpBox";
 import apiURLs from "../../apiURL";
+import { useNavigate } from "react-router-dom";
 
 SwiperCore.use([Autoplay]);
 
 const Main = () => {
+  const navigate = useNavigate();
   const [images, setImages] = useState([]);
   const [top3Popups, setTop3Popups] = useState([]);
   const [inProgressPopups, setInProgressPopups] = useState([]); // 진행중인 팝업 데이터 저장용 상태
@@ -135,7 +137,7 @@ const Main = () => {
         ))}
       </div>
       <div className="main-bottom">
-        <button className="mainBtn">Load more</button>
+        <button className="mainBtn" onClick={()=>{navigate("/popup");}}>Load more</button>
       </div>
     </div>
   );

@@ -132,7 +132,7 @@ const PopupDetail = () => {
         <div className="detailBox">
           <div className="detail-title">브랜드 페이지 링크</div>
           <div className="detail-content">
-            <a href="${popup.popupPageLink}">{popup.popupName}</a>
+            <a href={popup.popupPageLink}>{popup.popupName}</a>
           </div>
         </div>
       </div>
