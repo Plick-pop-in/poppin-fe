@@ -5,13 +5,17 @@ import LogoutComponent from '../myPage/module/LogoutComponenet';
 import useCustomLogin from '../myPage/module/useCustomLogin';
 
 const Header = () => {
-  const {isLogin, moveToLogin} = useCustomLogin()
+  const { isLogin, moveToLogin, moveToPath } = useCustomLogin()
   const handleLogoClick = () => {
     window.location.href = '/main'; 
   };
 
   const handleClickLogin = (e) => {
     moveToLogin()
+  }
+
+  const handleClickJoin = (e) => {
+    moveToPath("/Signup")
   }
 
   //이메일이 있을 때와 없을 때(공백)
@@ -40,7 +44,7 @@ const Header = () => {
         <><LogoutComponent></LogoutComponent></> :
         <div className="header-buttons">
           <button className="header-button special-button" onClick={handleClickLogin}><strong>Sign In</strong></button>
-          <button className="header-button special-button"><strong>Join</strong></button>
+          <button className="header-button special-button" onClick={handleClickJoin}><strong>Join</strong></button>
         </div>
         }
       </div>
