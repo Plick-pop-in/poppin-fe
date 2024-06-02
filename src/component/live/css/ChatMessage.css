@@ -1,0 +1,40 @@
+.chat-message {
+    width: 345px;
+    height: auto;
+    flex-shrink: 0;
+  }
+  
+  .user-nickname {
+    width: 345px;
+    height: 15.14px;
+    flex-shrink: 0;
+    font-family: "Open Sans";
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.3333; /* 16px */
+  }
+  
+  .message-bubble {
+    width: 372px;
+    height: auto;
+    flex-shrink: 0;
+    border-radius: 12px 12px 12px 0px;
+    background: #F7F7F7;
+    color: #626264;
+    text-align: right;
+    font-family: "Open Sans";
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    padding: 8px;
+    margin-top: 5px;
+  }
+  
+  .message-time {
+    font-family: "Open Sans";
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    width: 345px;
+  }
+  
