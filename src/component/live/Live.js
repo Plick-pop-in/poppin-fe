@@ -4,7 +4,6 @@ import LiveBox from "./LiveBox.js";
 import axios from "axios";
 import apiURLs from "../../apiURL.js";
 
-
 const Live = () => {
     const [live, setLive] = useState([]);
     const [keywordValue, setKeywordValue] = useState(""); // 검색 값
@@ -24,9 +23,8 @@ const Live = () => {
             console.log(response.data.data);
         } catch (error) {
             console.error("Error: fetching live data", error);
-    }
+        }
     };
-
 
     // 검색 버튼 클릭 시 함수 호출
     const onChangeKeyword = () => {
@@ -81,16 +79,17 @@ const Live = () => {
                 <div className="list-space">
                     <div className="list-container">
                         {live.map((popup) => (
-                            <LiveBox
-                                image = {popup.popupImage}
-                                name={popup.popupName}
-                                location={popup.popupLocation}
-                                city={popup.popupCity}
-                                local={popup.popupLocal}
-                                period={popup.popupPeriod}
-                                joinedPeople = {popup.joinedPeopleCnt}
-                                
-                            />
+                            <div className="list-box">
+                                <LiveBox
+                                    image={popup.popupImage}
+                                    name={popup.popupName}
+                                    location={popup.popupLocation}
+                                    city={popup.popupCity}
+                                    local={popup.popupLocal}
+                                    period={popup.popupPeriod}
+                                    joinedPeople={popup.joinedPeopleCnt}
+                                />
+                            </div>
                         ))}
                     </div>
                 </div>

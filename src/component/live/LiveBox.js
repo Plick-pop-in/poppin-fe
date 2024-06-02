@@ -7,7 +7,7 @@ const LiveBox = (props) => {
 
     const clickPopupButton = (item) => {
         navigate("/PopupDetail/${item.id}");
-    };
+    }
 
     return (
         <div className="list-box">
