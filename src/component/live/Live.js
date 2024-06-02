@@ -1,26 +1,53 @@
 import React, { useEffect, useState } from "react";
 import "./css/Live.css";
 import LiveBox from "./LiveBox.js";
-import dbjson from "../popup/popupdb.json";
+import axios from "axios";
+import apiURLs from "../../apiURL.js";
 
 const Live = () => {
-    const [live, setLive] = useState(null);
-    const [keyword, setKeyword] = useState(""); // 검색 값
+    const [live, setLive] = useState([]);
+    const [keywordValue, setKeywordValue] = useState(""); // 검색 값
 
+    //<----------------------------------------------------------->//
+    // Live 가져오는 함수
     const getLive = async () => {
-        // API 호출 시 키워드 전달
-        const response = await fetch(`/api/live?keyword=${keyword}`);
-        const data = await response.json();
-        setLive(data); // API 응답으로 받은 데이터로 상태 업데이트
+        try {
+            const requestData = {
+                keyword: keywordValue,
+            };
+            
+            const url = `${apiURLs.live}?keyword=${keywordValue}`;
+            console.log("Fetching URL:", url);
+            const response = await axios.get(url);
+            setLive(response.data.data);
+            console.log(response.data.data);
+        } catch (error) {
+            console.error("Error: fetching live data", error);
+        }
     };
 
-    useEffect(() => {
-        setLive(dbjson);
-    }, []);
+    // 검색 버튼 클릭 시 함수 호출
+    const onChangeKeyword = () => {
+        const keywordInput = document.getElementById('keywordValue').value;
+        setKeywordValue(keywordInput);
+        sessionStorage.setItem("keywordValue", keywordInput);
+        getLive();
+    };
 
-    if (live === null) {
-        return null;
-    }
+    //<----------------------------------------------------------------->//
+    useEffect(() => {
+        const savedKeywordValue = sessionStorage.getItem("keywordValue");
+        if (savedKeywordValue) {
+            setKeywordValue(savedKeywordValue);
+        }
+        getLive();
+    }, []); 
+
+    useEffect(() => {
+        if (live.length === 0) {
+            console.log("No live list");
+        }
+    }, [live]);
 
     return (
         <div className="live-page">
@@ -32,16 +59,17 @@ const Live = () => {
             {/* search 창 */}
             <div className="list-top">
                 <span>
-                    <img src={require("../../assets/images/search.png")} />
+                    <img src={require("../../assets/images/search.png")} alt="Search Icon" />
                 </span>
                 <input
                     className="list-search"
                     placeholder="search for anything"
-                    value={keyword} // 입력된 키워드 표시
-                    onChange={(e) => setKeyword(e.target.value)} // 입력된 키워드 업데이트
+                    id="keywordValue"
+                    value={keywordValue} // 입력된 키워드 표시
+                    onChange ={onChangeKeyword}
                 ></input>
-                <button className="searchBtn" type="button" onClick={getLive}> {/* 2. 검색 버튼 클릭 시 API 호출 */}
-                    <img src={require("../../assets/images/searchBtn.png")} />
+                <button className="searchBtn" type="button" onClick={onChangeKeyword}> {/* 2. 검색 버튼 클릭 시 API 호출 */}
+                    <img src={require("../../assets/images/searchBtn.png")} alt="Search Button" />
                 </button>
             </div>
             {/* search 창 */}
@@ -51,17 +79,17 @@ const Live = () => {
                 <div className="list-space">
                     <div className="list-container">
                         {live.map((popup) => (
-                            <LiveBox
-                                key={popup.id} // 각 항목에 고유한 키 할당
-                                id={popup.id}
-                                name={popup.name}
-                                start_date={popup.start_date}
-                                end_date={popup.start_date}
-                                city={popup.city}
-                                local={popup.local}
-                                location={popup.location}
-                                image={popup.image}
-                            />
+                            <div className="list-box">
+                                <LiveBox
+                                    image={popup.popupImage}
+                                    name={popup.popupName}
+                                    location={popup.popupLocation}
+                                    city={popup.popupCity}
+                                    local={popup.popupLocal}
+                                    period={popup.popupPeriod}
+                                    joinedPeople={popup.joinedPeopleCnt}
+                                />
+                            </div>
                         ))}
                     </div>
                 </div>
