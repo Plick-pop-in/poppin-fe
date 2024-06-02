@@ -54,16 +54,11 @@ top: 250px;
 vertical-align: middle;
 
 font-weight: 400;
-font-size: 9.80392px;
+font-size: 13px;
 line-height: 16px;
+margin-left: 4%;
 }
 
-.box-heart>img{
-margin-right: 8%;
-vertical-align: middle;
-width: 17px;
-height: 15.6;
-} 
 
 /* 팝업스토어 */
 .box-name{

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-
+import Heart from "../heart/Heart";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Navigation, Pagination, Autoplay } from "swiper";
 import "swiper/css";
@@ -53,14 +53,14 @@ const PopupDetail = () => {
   //JSON 파일에서 해당 데이터 불러오기
   useEffect(() => {
     const fetchPopupDetail = async () => {
-      console.log("popupId :"+popupId);
+      console.log("popupId :" + popupId);
       if (!popupId) {
         console.error("Popup ID is not defined");
         return;
       }
-      
+
       try {
-        const response = await axios.get( apiURLs.popupdetail+ popupId );
+        const response = await axios.get(apiURLs.popupdetail + popupId);
         setPopup(response.data.data);
       } catch (error) {
         console.error("Error fetching popup detail:", error);
@@ -81,12 +81,7 @@ const PopupDetail = () => {
       <div className="popupDetail">
         <div>
           <div className="detail-heart">
-            <img src={require("../../assets/images/heart.png")} />
-            {popup.likeCount > 999 ? (
-              <span>999+</span>
-            ) : (
-              <span>{popup.likeCount}</span>
-            )}
+            <Heart heart={popup.likeCount} />
           </div>
           <div className="display-flex">
             <div className="detail-name">{popup.popupName}</div>
@@ -119,9 +114,7 @@ const PopupDetail = () => {
 
         <div className="detailBox">
           <div className="detail-title">운영시간</div>
-          <div className="detail-content">
-          {popup.popupTime}
-          </div>
+          <div className="detail-content">{popup.popupTime}</div>
         </div>
 
         <div className="detailBox">

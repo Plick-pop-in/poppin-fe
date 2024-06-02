@@ -1,10 +1,20 @@
 import React from "react";
 
-const Heart = (popup) =>{
-    // 유저 로그인시 아닐시 차이 있게
+const Heart = (item) =>{
+    const imgStyle = {
+        marginRight: '5px',
+        verticalAlign: 'middle',
+        width: '18px'
+    };
 
-    <img src={require("../../assets/images/heart.png")} />
-    {popup.heart > 999 ? (<span>999+</span>) : (<span>{popup.heart}</span>)}
+    // 유저 로그인시 아닐시 차이 있게
+    return(
+        <div className="heart">
+            <img src={require("../../assets/images/heart.png")} style={imgStyle} />
+            {item.heart > 999 ? (<span>999+</span>) : (<span>{item.heart}</span>)}
+        </div>
+    );
+
 };
 
 export default Heart;
