@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_SERVER_HOST = 'http://localhost:8080';
+const API_SERVER_HOST = 'http://www.plick.shop';
 
 export const loginPost = async (loginParam) => {
     const header = {headers: {"Content-Type": "application/x-www-form-urlencoded"}};
