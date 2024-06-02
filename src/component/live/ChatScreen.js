@@ -5,11 +5,11 @@ import "./css/ChatScreen.css";
 
 const ChatScreen = () => {
     const [messages, setMessages] = useState([]); // 채팅 메시지를 저장할 상태 변수
-    let client; // client 변수를 선언합니다.
+    const [client, setClient] = useState(null); // STOMP 클라이언트 상태 변수
 
     useEffect(() => {
         // STOMP 클라이언트 생성
-        client = new Client({
+        const newClient = new Client({
             brokerURL: "ws://localhost:8080/ws", // WebSocket 서버 URL을 지정합니다.
             debug: function (str) {
                 console.log(str);
@@ -20,33 +20,46 @@ const ChatScreen = () => {
         });
 
         // 연결이 성공하면 실행될 콜백 함수
-        const onConnected = () => {
+        newClient.onConnect = () => {
             console.log("Connected to WebSocket");
+            setClient(newClient); // 연결이 성공하면 클라이언트를 상태로 설정
         };
 
         // 연결이 실패하면 실행될 콜백 함수
-        const onError = (error) => {
+        newClient.onStompError = (error) => {
             console.error("Error connecting to WebSocket:", error);
         };
 
-        // STOMP 클라이언트에 콜백 함수 등록
-        client.activate();
+        // STOMP 클라이언트 활성화
+        newClient.activate();
 
         // 컴포넌트가 언마운트될 때 연결 해제
         return () => {
-            client.deactivate();
+            if (newClient && newClient.connected) {
+                newClient.deactivate();
+            }
         };
     }, []);
 
     // 메시지 전송 함수
     const sendMessage = (message) => {
-        // STOMP 클라이언트를 통해 메시지 전송
-        // 이 부분은 실제로 서버로 메시지를 전송하는 코드입니다.
-        // 서버에서 메시지를 받으면 해당 메시지를 다시 받아올 수 있습니다.
-        client.publish({
-            destination: '/pub/chat.sendMessage', // 메시지를 보낼 엔드포인트 지정
-            body: JSON.stringify(message), // 메시지를 JSON 형태로 변환하여 전송
-        });
+        // 클라이언트가 활성화되어 있고 연결되어 있는지 확인
+        if (client && client.connected) {
+            // 클라이언트에서 생성한 메시지를 ChatMessage 클래스의 인스턴스로 변환
+            const chatMessage = {
+                type: "MESSAGE", // 메시지 타입 설정
+                content: message.content, // 내용 설정
+                sender: message.nickname // 발신자 설정
+            };
+
+            // STOMP 클라이언트를 통해 메시지 전송
+            client.publish({
+                destination: '/pub/chat.sendMessage', // 메시지를 보낼 엔드포인트 지정
+                body: JSON.stringify(chatMessage), // 메시지를 JSON 형태로 변환하여 전송
+            });
+        } else {
+            console.error("STOMP connection is not active.");
+        }
     };
 
     return (
