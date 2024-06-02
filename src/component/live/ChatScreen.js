@@ -57,7 +57,7 @@ const ChatScreen = () => {
                 destination: '/pub/chat.sendMessage',
                 body: JSON.stringify(chatMessage),
             });
-
+            console.log("받는 메시지: ", chatMessage); 
             setInputMessage("");
         } else {
             console.error("STOMP 연결 실패");
@@ -72,7 +72,7 @@ const ChatScreen = () => {
                         key={index}
                         nickname={message.sender}
                         message={message.content}
-                        time={message.time}
+                        time={new Date(message.time).toLocaleString()} // ISO 8601 형식을 파싱하여 표시
                     />
                 ))}
             </div>
