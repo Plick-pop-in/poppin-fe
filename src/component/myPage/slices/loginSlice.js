@@ -4,7 +4,8 @@ import { loginPost } from "../api/userApi";
 import { getCookie, removeCookie, setCookies } from "./cookieUtil";
 
 const initState = {
-    email: ''
+    email: '',
+    id: ''
 }
 
 const loadMemberCookie = () => {
