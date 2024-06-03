@@ -23,10 +23,14 @@ const ChatScreen = () => {
             console.log("웹소켓 연결 성공");
             setClient(newClient);
 
-            newClient.subscribe('/topic/public', (message) => {
+            newClient.subscribe('/sub/public', (message) => {
                 console.log("받은 메시지: ", message.body); // 메시지 확인용 로그
                 const body = JSON.parse(message.body);
-                setMessages(prevMessages => [...prevMessages, body]);
+                setMessages(prevMessages => {
+                    const updatedMessages = [...prevMessages, body];
+                    console.log("업데이트된 messages 상태: ", updatedMessages); // 상태 업데이트 확인용 로그
+                    return updatedMessages;
+                });
             });
         };
 
@@ -43,6 +47,10 @@ const ChatScreen = () => {
         };
     }, []);
 
+    useEffect(() => {
+        console.log("렌더링된 messages 상태: ", messages); // 상태 변화 확인용 로그
+    }, [messages]);
+
     const sendMessage = () => {
         if (client && client.connected) {
             const chatMessage = {
@@ -57,7 +65,6 @@ const ChatScreen = () => {
                 destination: '/pub/chat.sendMessage',
                 body: JSON.stringify(chatMessage),
             });
-            console.log("받는 메시지: ", chatMessage); 
             setInputMessage("");
         } else {
             console.error("STOMP 연결 실패");
@@ -67,14 +74,17 @@ const ChatScreen = () => {
     return (
         <div className="chat-screen">
             <div className="chat-messages">
-                {messages.map((message, index) => (
-                    <ChatMessage
-                        key={index}
-                        nickname={message.sender}
-                        message={message.content}
-                        time={new Date(message.time).toLocaleString()} // ISO 8601 형식을 파싱하여 표시
-                    />
-                ))}
+                {messages.map((message, index) => {
+                    console.log("렌더링할 메시지: ", message); // 렌더링 확인용 로그
+                    return (
+                        <ChatMessage
+                            key={index}
+                            nickname={message.sender}
+                            message={message.content}
+                            time={new Date(message.time).toLocaleString()} // ISO 8601 형식을 파싱하여 표시
+                        />
+                    );
+                })}
             </div>
             <div className="chat-input">
                 <input
@@ -89,6 +99,7 @@ const ChatScreen = () => {
                     aria-label="전송"
                     onClick={sendMessage}
                 >
+                    
                 </button>
             </div>
         </div>
