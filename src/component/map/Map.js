@@ -105,46 +105,100 @@ const Map = () => {
                                 전체
                             </button>
                             <button
-                                className={"region-button " + (selectedRegion === "Seoul" ? "selected" : "")}
-                                onClick={() => handleRegionSelection("Seoul")}
+                                className={"region-button " + (selectedRegion === "서울특별시" ? "selected" : "")}
+                                onClick={() => handleRegionSelection("서울특별시")}
                             >
                                 서울특별시
                             </button>
                             <button
-                                className={"region-button " + (selectedRegion === "Gyeonggi" ? "selected" : "")}
-                                onClick={() => handleRegionSelection("Gyeonggi")}
+                                className={"region-button " + (selectedRegion === "경기도" ? "selected" : "")}
+                                onClick={() => handleRegionSelection("경기도")}
                             >
                                 경기도
                             </button>
                             <button
-                                className={"region-button " + (selectedRegion === "Incheon" ? "selected" : "")}
-                                onClick={() => handleRegionSelection("Incheon")}
+                                className={"region-button " + (selectedRegion === "인천광역시" ? "selected" : "")}
+                                onClick={() => handleRegionSelection("인천광역시")}
                             >
                                 인천광역시
                             </button>
                             <button
-                                className={"region-button " + (selectedRegion === "Busan" ? "selected" : "")}
-                                onClick={() => handleRegionSelection("Busan")}
+                                className={"region-button " + (selectedRegion === "부산광역시" ? "selected" : "")}
+                                onClick={() => handleRegionSelection("부산광역시")}
                             >
                                 부산광역시
                             </button>
                         </div>
                     </div>
 
-                    {selectedRegion === "Seoul" && (
+                    {selectedRegion === "서울특별시" && (
                         <div className="subregion">
                             <div className="subregion-buttons">
                                 <button
-                                    className={"subregion-button " + (selectedSubregion === "Gangnam" ? "selected" : "")}
-                                    onClick={() => handleSubregionSelection("Gangnam")}
+                                    className={"subregion-button " + (selectedSubregion === "강남구" ? "selected" : "")}
+                                    onClick={() => handleSubregionSelection("강남구")}
                                 >
                                     강남구
                                 </button>
                                 <button
-                                    className={"subregion-button " + (selectedSubregion === "Gwanak" ? "selected" : "")}
-                                    onClick={() => handleSubregionSelection("Gwanak")}
+                                    className={"subregion-button " + (selectedSubregion === "송파구" ? "selected" : "")}
+                                    onClick={() => handleSubregionSelection("송파구")}
                                 >
-                                    관악구
+                                    송파구
+                                </button>
+                                <button
+                                    className={"subregion-button " + (selectedSubregion === "영등포구" ? "selected" : "")}
+                                    onClick={() => handleSubregionSelection("영등포구")}
+                                >
+                                    영등포구
+                                </button>
+                                <button
+                                    className={"subregion-button " + (selectedSubregion === "서초구" ? "selected" : "")}
+                                    onClick={() => handleSubregionSelection("서초구")}
+                                >
+                                    서초구
+                                </button>
+                                <button
+                                    className={"subregion-button " + (selectedSubregion === "마포구" ? "selected" : "")}
+                                    onClick={() => handleSubregionSelection("마포구")}
+                                >
+                                    마포구
+                                </button>
+                                <button
+                                    className={"subregion-button " + (selectedSubregion === "서대문구" ? "selected" : "")}
+                                    onClick={() => handleSubregionSelection("서대문구")}
+                                >
+                                    서대문구
+                                </button>
+                                <button
+                                    className={"subregion-button " + (selectedSubregion === "용산구" ? "selected" : "")}
+                                    onClick={() => handleSubregionSelection("용산구")}
+                                >
+                                    용산구
+                                </button>
+                                <button
+                                    className={"subregion-button " + (selectedSubregion === "중구" ? "selected" : "")}
+                                    onClick={() => handleSubregionSelection("중구")}
+                                >
+                                    중구
+                                </button>
+                                <button
+                                    className={"subregion-button " + (selectedSubregion === "종로구" ? "selected" : "")}
+                                    onClick={() => handleSubregionSelection("종로구")}
+                                >
+                                    종로구
+                                </button>
+                                <button
+                                    className={"subregion-button " + (selectedSubregion === "성동구" ? "selected" : "")}
+                                    onClick={() => handleSubregionSelection("성동구")}
+                                >
+                                    성동구
+                                </button>
+                                <button
+                                    className={"subregion-button " + (selectedSubregion === "동대문구" ? "selected" : "")}
+                                    onClick={() => handleSubregionSelection("동대문구")}
+                                >
+                                    동대문구
                                 </button>
                             </div>
                         </div>
