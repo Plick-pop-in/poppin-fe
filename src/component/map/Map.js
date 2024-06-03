@@ -14,10 +14,21 @@ const Map = () => {
         setSelectedRegion(region);
     };
 
-    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [selectedCategories, setSelectedCategories] = useState([]);
 
     const handleCategorySelection = (category) => {
-        setSelectedCategory(category);
+        // 이미 선택된 카테고리인지 확인
+        const index = selectedCategories.indexOf(category);
+
+        if (index === -1) {
+            // 선택된 목록에 추가
+            setSelectedCategories([...selectedCategories, category]);
+        } else {
+            // 선택된 목록에서 제거
+            const newCategories = [...selectedCategories];
+            newCategories.splice(index, 1);
+            setSelectedCategories(newCategories);
+        }
     };
 
     const [selectedSubregion, setSelectedSubregion] = useState(null);
@@ -145,61 +156,61 @@ const Map = () => {
                         </div>
                         <div className="category-buttons">
                             <button
-                                className={"category-button " + (selectedCategory === null ? "selected" : "")}
+                                className={"category-button " +  (selectedCategories.length === 0 ? "selected" : "")}
                                 onClick={() => handleCategorySelection(null)}
                             >
                                 전체
                             </button>
                             <button
-                                className={"category-button " + (selectedCategory === "fashion" ? "selected" : "")}
+                                className={"category-button " + (selectedCategories.includes("fashion") ? "selected" : "")}
                                 onClick={() => handleCategorySelection("fashion")}
                             >
                                 패션
                             </button>
                             <button
-                                className={"category-button " + (selectedCategory === "beauty" ? "selected" : "")}
+                                className={"category-button " + (selectedCategories.includes("beauty") ? "selected" : "")}
                                 onClick={() => handleCategorySelection("beauty")}
                             >
                                 뷰티
                             </button>
                             <button
-                                className={"category-button " + (selectedCategory === "music" ? "selected" : "")}
+                                className={"category-button " + (selectedCategories.includes("music") ? "selected" : "")}
                                 onClick={() => handleCategorySelection("music")}
                             >
                                 음악
                             </button>
                             <button
-                                className={"category-button " + (selectedCategory === "food" ? "selected" : "")}
+                                className={"category-button " + (selectedCategories.includes("food") ? "selected" : "")}
                                 onClick={() => handleCategorySelection("food")}
                             >
                                 음식
                             </button>
                             <button
-                                className={"category-button " + (selectedCategory === "celeb" ? "selected" : "")}
+                                className={"category-button " + (selectedCategories.includes("celeb") ? "selected" : "")}
                                 onClick={() => handleCategorySelection("celeb")}
                             >
                                 연예
                             </button>
                             <button
-                                className={"category-button " + (selectedCategory === "character" ? "selected" : "")}
+                                className={"category-button " + (selectedCategories.includes("character") ? "selected" : "")}
                                 onClick={() => handleCategorySelection("character")}
                             >
                                 캐릭터
                             </button>
                             <button
-                                className={"category-button " + (selectedCategory === "digital" ? "selected" : "")}
+                                className={"category-button " + (selectedCategories.includes("digital") ? "selected" : "")}
                                 onClick={() => handleCategorySelection("digital")}
                             >
                                 가전/디지털
                             </button>
                             <button
-                                className={"category-button " + (selectedCategory === "living" ? "selected" : "")}
+                                className={"category-button " + (selectedCategories.includes("living") ? "selected" : "")}
                                 onClick={() => handleCategorySelection("living")}
                             >
                                 리빙
                             </button>
                             <button
-                                className={"category-button " + (selectedCategory === "game" ? "selected" : "")}
+                                className={"category-button " + (selectedCategories.includes("game") ? "selected" : "")}
                                 onClick={() => handleCategorySelection("game")}
                             >
                                 게임
