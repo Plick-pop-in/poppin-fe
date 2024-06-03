@@ -8,44 +8,55 @@ const ChatScreen = () => {
     const [client, setClient] = useState(null);
     const [inputMessage, setInputMessage] = useState("");
 
-    useEffect(() => {
-        const newClient = new Client({
-            brokerURL: "ws://localhost:8080/ws",
-            debug: function (str) {
-                console.log(str);
-            },
-            reconnectDelay: 5000,
-            heartbeatIncoming: 4000,
-            heartbeatOutgoing: 4000,
-        });
-
-        newClient.onConnect = () => {
-            console.log("웹소켓 연결 성공");
-            setClient(newClient);
-
-            newClient.subscribe('/sub/public', (message) => {
-                console.log("받은 메시지: ", message.body); // 메시지 확인용 로그
-                const body = JSON.parse(message.body);
-                setMessages(prevMessages => {
-                    const updatedMessages = [...prevMessages, body];
-                    console.log("업데이트된 messages 상태: ", updatedMessages); // 상태 업데이트 확인용 로그
-                    return updatedMessages;
-                });
+    const handleMessage = (message) => {
+        console.log("받은 메시지: ", message.body); // 메시지 확인용 로그
+        const body = JSON.parse(message.body);
+    
+        // ID를 사용하여 중복 확인
+        const existingMessage = messages.find(msg => msg.id === body.id);
+        if (!existingMessage) {
+            setMessages(prevMessages => {
+                const updatedMessages = [...prevMessages, body];
+                console.log("업데이트된 messages 상태: ", updatedMessages); // 상태 업데이트 확인용 로그
+                return updatedMessages;
             });
-        };
+        }
+    };
 
-        newClient.onStompError = (error) => {
-            console.error("웹소켓 연결 에러:", error);
-        };
+    useEffect(() => {
+        if (!client) {
+            const newClient = new Client({
+                brokerURL: "ws://localhost:8080/ws",
+                debug: function (str) {
+                    console.log(str);
+                },
+                reconnectDelay: 5000,
+                heartbeatIncoming: 4000,
+                heartbeatOutgoing: 4000,
+            });
 
-        newClient.activate();
+            newClient.onConnect = () => {
+                console.log("웹소켓 연결 성공");
+                setClient(newClient);
+
+                newClient.subscribe('/sub/public', (message) => {
+                    handleMessage(message);
+                });
+            };
+
+            newClient.onStompError = (error) => {
+                console.error("웹소켓 연결 에러:", error);
+            };
+
+            newClient.activate();
+        }
 
         return () => {
-            if (newClient && newClient.connected) {
-                newClient.deactivate();
+            if (client && client.connected) {
+                client.deactivate();
             }
         };
-    }, []);
+    }, [client]);
 
     useEffect(() => {
         console.log("렌더링된 messages 상태: ", messages); // 상태 변화 확인용 로그
