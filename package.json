@@ -51,5 +51,5 @@
     ]
   },
   "proxy": "http://www.plick.shop",
-  "proxy": "http://localhost:8080/v1/user/login"
+  "proxy": "http://www.plick.shop/v1/user/login"
 }
