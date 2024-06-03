@@ -20,6 +20,7 @@ const PopupBox = (popup) => {
       <div className="box-heart">
         <Heart
           heart={popup.heart}
+          popupId={popup.popupId}
         />
       </div>
       <div className="box-inner">
