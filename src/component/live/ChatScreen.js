@@ -26,7 +26,7 @@ const ChatScreen = () => {
     useEffect(() => {
         if (!client) {
             const newClient = new Client({
-                brokerURL: "ws://localhost:8080/ws",
+                brokerURL: "ws://www.plick.shop/ws",
                 debug: function (str) {
                     console.log(str);
                 },
