@@ -61,6 +61,7 @@ const PopupDetail = () => {
 
       try {
         const response = await axios.get(apiURLs.popupdetail + popupId);
+        //const response = await axios.get("http://localhost:8080/v1/popup/popupdetail/" + popupId);
         setPopup(response.data.data);
       } catch (error) {
         console.error("Error fetching popup detail:", error);
@@ -81,7 +82,9 @@ const PopupDetail = () => {
       <div className="popupDetail">
         <div>
           <div className="detail-heart">
-            <Heart heart={popup.likeCount} />
+            <Heart 
+              likeCount={popup.likeCount}
+              popupId={popupId} />
           </div>
           <div className="display-flex">
             <div className="detail-name">{popup.popupName}</div>

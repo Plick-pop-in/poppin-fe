@@ -26,6 +26,7 @@ const PopupList = () => {
       };
 
       const url = `${apiURLs.popuplist}?${requestData.categories}&period=${requestData.period}&search=${requestData.search}`;
+      //const url = `http://localhost:8080/v1/popup/popuplist?${requestData.categories}&period=${requestData.period}&search=${requestData.search}`;
       const response = await axios.get(url);
       setPopup(response.data.data);
       //console.log(response.data.data);
