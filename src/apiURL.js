@@ -10,7 +10,8 @@ const apiURLs = {
     live: "http://www.plick.shop/v1/popup/live",
     addHeart: "http://www.plick.shop/v1/heart/addHeart",
     deleteHeart: "http://www.plick.shop/v1/heart/deleteHeart",
-    isLike: "http://www.plick.shop/v1/heart/isLike"
+    isLike: "http://www.plick.shop/v1/heart/isLike",
+    joinLive : "http://www.plick.shop/v1/chat/joinLive"
     // 다른 링크들도 필요에 따라 추가 가능
   };
   
