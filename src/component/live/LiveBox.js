@@ -26,7 +26,8 @@ const LiveBox = (props) => {
                         <div className="chat-box-liked">{props.joinedPeople}명이 와글와글</div>
                     </div>
                     <div className="chat-box-point">Ⓒ100P</div>
-                    <button className="join-button" onClick={()=>joinLive(popupId)}><strong>join</strong></button>
+                    {/* <button className="join-button" onClick={()=>joinLive(popupId)}><strong>join</strong></button> */}
+                    <button className="join-button"><strong>join</strong></button>
                 </div>
             </div>
         </div>
