@@ -16,7 +16,7 @@ const Heart = (item) =>{
 
     const [isLiked, setIsLiked] = useState(false);
     const [likeCount, setlikeCount] = useState("");
-    const { isLogin, moveToLogin, moveToPath } = useCustomLogin();
+    const { isLogin, moveToLogin } = useCustomLogin();
     const loginInfo = useSelector(state => state.loginSlice);
 
     const fetchisLiked = async () => {
@@ -24,7 +24,7 @@ const Heart = (item) =>{
             const userId = loginInfo.id;
             console.log('User ID:', userId);
 
-            if(loginInfo.id){
+            if(isLogin && loginInfo.id){
                 const url = `http://localhost:8080/v1/heart/isLike?popupId=${item.popupId}&userId=${loginInfo.id}`;
                 const response = await axios.get(url);
                 console.log("islike", response.data.data);
