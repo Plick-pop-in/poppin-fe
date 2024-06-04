@@ -17,7 +17,7 @@ const useJoinLive=(popupId)=>{
             
             if( !response.data.data.isJoin && response.data.data.isMoney){   //결제 완료
                 const leftPoint = response.data.data.leftPoint;
-                alert(message + "\n 남은 포인트는" + leftPoint + "point 입니다.");
+                alert(message + "\n 남은 포인트는 " + leftPoint + " points 입니다.");
             }else{
                 alert(message);
             }
