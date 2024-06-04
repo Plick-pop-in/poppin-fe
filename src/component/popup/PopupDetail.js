@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Heart from "../heart/Heart";
+import apiURLs from "../../apiURL";
+import useJoinLive from "../live/useJoinLive";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Navigation, Pagination, Autoplay } from "swiper";
 import "swiper/css";
@@ -9,7 +11,6 @@ import "swiper/css/autoplay";
 import "swiper/scss/navigation";
 import "swiper/scss/pagination";
 import "./css/PopupDetail.css";
-import apiURLs from "../../apiURL";
 
 SwiperCore.use([Navigation, Pagination, Autoplay]);
 
@@ -49,6 +50,7 @@ const PopupDetail = () => {
   //url에서 id 값 가져오기
   const { popupId } = useParams();
   const [popup, setPopup] = useState(null);
+  const joinLive = useJoinLive();
 
   //JSON 파일에서 해당 데이터 불러오기
   useEffect(() => {
@@ -60,8 +62,8 @@ const PopupDetail = () => {
       }
 
       try {
-        const response = await axios.get(apiURLs.popupdetail + popupId);
-        //const response = await axios.get("http://localhost:8080/v1/popup/popupdetail/" + popupId);
+        //const response = await axios.get(apiURLs.popupdetail + popupId);
+        const response = await axios.get("http://localhost:8080/v1/popup/popupdetail/" + popupId);
         setPopup(response.data.data);
       } catch (error) {
         console.error("Error fetching popup detail:", error);
@@ -88,8 +90,8 @@ const PopupDetail = () => {
           </div>
           <div className="display-flex">
             <div className="detail-name">{popup.popupName}</div>
-            <div className="detail-live">
-              <button>Live chat</button>
+            <div className="detail-live" >
+              <button onClick={()=>joinLive(popupId)}>Live chat</button>
             </div>
           </div>
           <div className="detail-date">{popup.popupPeriod}</div>
