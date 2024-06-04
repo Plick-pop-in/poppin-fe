@@ -50,5 +50,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://www.plick.shop"
+  "proxy": "http://www.plick.shop",
+  "proxy": "http://www.plick.shop/v1/user/login"
 }
