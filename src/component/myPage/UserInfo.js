@@ -10,6 +10,7 @@ const initState = {
     email: '',
     nickname: '',
     name: '',
+    point: '',
 }
 
 export default function UserInfo() {
@@ -44,8 +45,7 @@ export default function UserInfo() {
             alert('회원 정보 수정 중 오류가 발생했습니다.');
         }
     }
-
-    const [point, setPoint] = useState(0); // 포인트 값을 상태로 관리
+    
     const [isOpen, setIsOpen] = useState(false); // 비밀번호 변경 팝업 창 관리
 
     const openModal = () => {
@@ -70,14 +70,6 @@ export default function UserInfo() {
         },
     };
 
-    // useEffect를 사용하여 컴포넌트가 마운트될 때 포인트 값을 받아옵니다.
-    useEffect(() => {
-        // 여기서는 예시로 정적인 값을 설정했습니다. 실제로는 포인트 값을 받아와야 합니다.
-        // 예를 들어 API 호출 등의 작업을 수행하여 포인트 값을 받아올 수 있습니다.
-        const fetchedPoint = 1234567; // 예시 포인트 값
-        setPoint(fetchedPoint); // 받아온 포인트 값을 상태에 설정합니다.
-    }, []);
-
     return (
         <div className="userinfo-container">
             <div className="userinfo-content">
@@ -87,7 +79,7 @@ export default function UserInfo() {
             <div className="point-info">
                 <div style={{ color: '#B1B5C3', fontSize: '12px', marginBottom: '10px' }}>나의 포인트</div>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <span className="point" style={{ color: '#000000', fontSize: '16px' }}>{point.toLocaleString()}</span>
+                    <span className="point" style={{ color: '#000000', fontSize: '16px' }}>{member.point.toLocaleString()}</span>
                     <button className="charge-btn">충전하기</button>
                 </div>
             </div>
