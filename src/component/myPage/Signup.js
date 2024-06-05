@@ -2,7 +2,7 @@ import './css/Signup.css';
 import React, { useState } from "react";
 import axios from "axios";
 import useCustomLogin from './module/useCustomLogin';
-import './css/Signup.css';
+import apiURLs from '../../apiURL';
 
 export default function Signup() {
     const [formData, setFormData] = useState({
@@ -14,6 +14,9 @@ export default function Signup() {
     });
     const [emailError, setEmailError] = useState("");
     const [passwordError, setPasswordError] = useState("");
+    const [emailCheckResult, setEmailCheckResult] = useState("");
+    const [confirmPasswordError, setConfirmPasswordError] = useState("");
+    const [nicknameCheckResult, setNicknameCheckResult] = useState("");
 
     const { moveToLogin } = useCustomLogin();
 
@@ -35,23 +38,55 @@ export default function Signup() {
             const isValidPassword = value.length >= 8;
             setPasswordError(isValidPassword ? "" : "비밀번호는 8자 이상이어야 합니다.");
         }
+
+        // 비밀번호와 비밀번호 확인 일치 검사
+        if (name === "password" || name === "confirmPassword") {
+            if (name === "confirmPassword" && value !== formData.password) {
+                setConfirmPasswordError("비밀번호가 일치하지 않습니다.");
+            } else {
+                setConfirmPasswordError("");
+            }
+        }
+    };
+
+    const handleEmailCheck = async () => {
+        try {
+            // const response = await axios.post(apiURLs.checkEmail, { email: formData.email });
+            const response = await axios.post("http://localhost:8080/v1/user/check-email", { email: formData.email });
+            setEmailCheckResult(response.data ? "이 이메일은 이미 사용 중입니다." : "사용 가능한 이메일입니다.");
+        } catch (error) {
+            console.error("이메일 확인 오류:", error);
+        }
+    };
+
+    const handleNicknameCheck = async () => {
+        try {
+            // const response = await axios.post(apiURLs.checkNickname, { nickname: formData.nickname });
+            const response = await axios.post("http://localhost:8080/v1/user/check-nickname", { nickname: formData.nickname });
+            setNicknameCheckResult(response.data ? "이 닉네임은 이미 사용 중입니다." : "사용 가능한 닉네임입니다.");
+        } catch (error) {
+            console.error("닉네임 확인 오류:", error);
+        }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         // 유효성 검사를 통과하지 못한 경우 회원가입을 진행하지 않음
-        if (emailError || passwordError) {
+        if (emailError || passwordError || emailCheckResult === "이 이메일은 이미 사용 중입니다." || confirmPasswordError || nicknameCheckResult === "이 닉네임은 이미 사용 중입니다.") {
             return;
         }
 
         try {
-            const response = await axios.post("http://localhost:8080/v1/signup", formData);
+            console.log(formData);
+            // const response = await axios.post(apiURLs.Signup, formData);
+            const response = await axios.post("http://localhost:8080/v1/user/signup", formData);
             console.log(response.data);
             alert("회원가입이 완료되었습니다.");
             moveToLogin();
         } catch (error) {
             console.error("회원가입 오류:", error);
+            alert("회원가입에 실패했습니다.");
         }
     };
 
@@ -93,9 +128,10 @@ export default function Signup() {
                                 value={formData.email}
                                 onChange={handleChange}
                             />
-                            <button className="checkButton">중복 확인</button>
+                            <button type="button" className="checkButton" onClick={handleEmailCheck}>중복 확인</button>
                         </div>
                         {emailError && <div className="error">{emailError}</div>}
+                        {emailCheckResult && <div className="error" style={{color:"red"}}>{emailCheckResult}</div>}
                         <div className="signupLabel">비밀번호</div>
                         <input
                             className="signupInput"
@@ -115,16 +151,20 @@ export default function Signup() {
                             onChange={handleChange}
                         />
                         {passwordError && <div className="error">{passwordError}</div>}
+                        {confirmPasswordError && <div className="error" style={{color:"red"}}>{confirmPasswordError}</div>}
                         <div className="signupLabel">닉네임</div>
                         <div className="inputWithButton">
-                        <input
-                            className="nicknameInput"
-                            name="nickname"
-                            type={'text'}
-                            placeholder="닉네임"
-                        />
-                        <button className="checkButton">중복 확인</button>
+                            <input
+                                className="nicknameInput"
+                                name="nickname"
+                                type="text"
+                                placeholder="닉네임"
+                                value={formData.nickname}
+                                onChange={handleChange} // 여기서 handleChange 함수를 호출합니다
+                            />
+                            <button type="button" className="checkButton" onClick={handleNicknameCheck}>중복 확인</button>
                         </div>
+                        {nicknameCheckResult && <div className="error" style={{color:"red"}}>{nicknameCheckResult}</div>}
                         <button className="signupButton" type="submit">회원가입</button>
                     </form>
                     <div className="loginPrompt">
