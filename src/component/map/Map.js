@@ -59,20 +59,30 @@ const Map = () => {
         const apiUrl = `${apiURLs.map}?${queryParams}`;
 
         fetch(apiUrl)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Network response was not ok " + response.statusText);
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log("API 응답 데이터:", data);
-            })
-            .catch(error => {
-                console.error("API 요청 오류:", error);
-            });
-    };
-
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("네트워크 응답이 올바르지 않습니다 " + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log("API 응답 데이터:", data);
+        
+            // 데이터가 객체인지 확인
+            if (Array.isArray(data.data)) {
+                data.data.forEach(popup => {
+                    const popupAddress = `${popup.popupCity} ${popup.popupLocal} ${popup.popupLocation}`;
+                    console.log("주소: ", popupAddress);       
+                });
+            } else {
+                console.error("API 응답 데이터의 'data'가 배열이 아닙니다.");
+            }
+        })
+        .catch(error => {
+           console.error("API 요청 오류:", error);
+        });
+        
+    }
     useEffect(() => {
         const script = document.createElement("script");
         script.src = "//dapi.kakao.com/v2/maps/sdk.js?appkey=744f339bbcbfcf5e57970eef6e98d373&libraries=services";
@@ -137,10 +147,10 @@ const Map = () => {
                                 전체
                             </button>
                             <button
-                                className={"region-button " + (selectedRegion === "서울특별" ? "selected" : "")}
-                                onClick={() => handleRegionSelection("서울")}
+                            className={"region-button " + (selectedRegion === "서울" ? "selected" : "")}
+                            onClick={() => handleRegionSelection("서울")}
                             >
-                                서울특별시
+                            서울특별시
                             </button>
                             <button
                                 className={"region-button " + (selectedRegion === "경기" ? "selected" : "")}
