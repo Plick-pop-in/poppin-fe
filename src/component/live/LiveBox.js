@@ -1,9 +1,11 @@
 import React from "react";
 import './css/LiveBox.css';
 import { useNavigate } from "react-router-dom";
+import useJoinLive from "../live/useJoinLive";
 
 const LiveBox = (props) => {
     const navigate = useNavigate();
+    const joinLive = useJoinLive();
 
     const clickPopupButton = (item) => {
         navigate("/PopupDetail/${item.id}");
@@ -24,6 +26,7 @@ const LiveBox = (props) => {
                         <div className="chat-box-liked">{props.joinedPeople}명이 와글와글</div>
                     </div>
                     <div className="chat-box-point">Ⓒ100P</div>
+                    {/* <button className="join-button" onClick={()=>joinLive(popupId)}><strong>join</strong></button> */}
                     <button className="join-button"><strong>join</strong></button>
                 </div>
             </div>

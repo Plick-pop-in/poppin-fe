@@ -5,11 +5,12 @@ import { getCookie, removeCookie, setCookies } from "./cookieUtil";
 
 const initState = {
     email: '',
-    id: ''
+    id: '',
+    point: 0
 }
 
 const loadMemberCookie = () => {
-    const memberInfo = getCookie('member')
+    const memberInfo = getCookie('member');
     return memberInfo
 }
 
@@ -33,6 +34,11 @@ const loginSlice = createSlice({
             removeCookie('member')
 
             return {...initState}
+        },
+        updatePoints: (state, action) => {
+            state.point = action.payload;
+            const updatedMember = { ...state, point: action.payload };
+            setCookies("member", JSON.stringify(updatedMember), 1);
         }
     },
     extraReducers: (builder) => {
@@ -56,5 +62,5 @@ const loginSlice = createSlice({
 })
 
 // 외부에서 login, logout 호출 가능
-export const {login, logout} = loginSlice.actions
+export const {login, logout, updatePoints} = loginSlice.actions
 export default loginSlice.reducer

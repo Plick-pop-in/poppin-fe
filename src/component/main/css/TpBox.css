@@ -44,19 +44,20 @@ left: 20.43px;
 top: 250px;
 }
 
-
-.tpbox-heart{
-position: absolute;
-width: 49.02px;
-height: 17px;
-left: 228.76px;
-top: 250px;
-vertical-align: middle;
-
-font-weight: 400;
-font-size: 9.80392px;
-line-height: 16px;
+.tpbox-heart {
+    position: absolute;
+    width: 49.02px;
+    height: 17px;
+    left: 228.76px;
+    top: 250px;
+    vertical-align: middle;
+    
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+    margin-left: 4%;
 }
+    
 
 .tpbox-heart>img{
 margin-right: 8%;

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom'; // react-router-dom에서 useNavigate를 import
 import './css/TpBox.css';
+import Heart from '../heart/Heart';
 
 const TpBox = ({ popupId, imgSrc, productName, popupPeriod, likeCount }) => {
   const navigate = useNavigate(); // useNavigate 훅 사용
@@ -13,8 +14,10 @@ const TpBox = ({ popupId, imgSrc, productName, popupPeriod, likeCount }) => {
     <div className="tpbox">
       <img src={imgSrc} alt="Product" className="tpbox-img" />
       <div className="tpbox-heart">
-        <img src={require("../../assets/images/mainboxheart.png")} alt="Heart" />
-        <span>{likeCount}</span>
+        <Heart
+          likeCount={likeCount}
+          popupId={popupId}
+        />
       </div>
       <div className="tpbox-inner">
         <div className="tpbox-name">{productName}</div>

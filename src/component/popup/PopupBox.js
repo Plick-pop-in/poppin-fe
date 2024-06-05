@@ -19,7 +19,8 @@ const PopupBox = (popup) => {
       />
       <div className="box-heart">
         <Heart
-          heart={popup.heart}
+          likeCount={popup.heart}
+          popupId={popup.id}
         />
       </div>
       <div className="box-inner">

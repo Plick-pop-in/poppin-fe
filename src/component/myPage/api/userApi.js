@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API_SERVER_HOST = 'http://www.plick.shop';
-// const API_SERVER_HOST = 'http://localhost:8080';
+ //const API_SERVER_HOST = 'http://localhost:8080';
 
 export const loginPost = async (loginParam) => {
     const header = {headers: {"Content-Type": "application/x-www-form-urlencoded"}};
@@ -15,7 +15,7 @@ export const loginPost = async (loginParam) => {
     return res.data;
 }
 
-export const modifyMember = async (member) => {
-    const res = await axios.put(`${API_SERVER_HOST}/v1/nickname/modify`, member);
-    return res.data;
-}
+// export const modifyMember = async (member) => {
+//     const res = await axios.put(`${API_SERVER_HOST}/v1/user/modify-nickname`, {id: member.id, nickname: member.nickname});
+//     return res.data;
+// }
