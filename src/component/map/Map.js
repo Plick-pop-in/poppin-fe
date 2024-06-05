@@ -3,7 +3,7 @@ import "./css/Map.css";
 import apiURLs from "../../apiURL";
 
 const Map = () => {
-    const [selectedDate, setSelectedDate] = useState(null);
+    const [selectedDate, setSelectedDate] = useState(0);
 
     const handleDateSelection = (date) => {
         setSelectedDate(date);
@@ -13,22 +13,23 @@ const Map = () => {
 
     const handleRegionSelection = (region) => {
         setSelectedRegion(region);
+        setSelectedSubregion(null); // 새로운 지역 선택 시 하위 지역 초기화
     };
 
     const [selectedCategories, setSelectedCategories] = useState([]);
 
     const handleCategorySelection = (category) => {
-        // 이미 선택된 카테고리인지 확인
-        const index = selectedCategories.indexOf(category);
-
-        if (index === -1) {
-            // 선택된 목록에 추가
-            setSelectedCategories([...selectedCategories, category]);
+        if (category === "") {
+            setSelectedCategories(["fashion", "beauty", "food", "celeb", "digital", "charactor", "living", "game"]);
         } else {
-            // 선택된 목록에서 제거
-            const newCategories = [...selectedCategories];
-            newCategories.splice(index, 1);
-            setSelectedCategories(newCategories);
+            const index = selectedCategories.indexOf(category);
+            if (index === -1) {
+                setSelectedCategories([...selectedCategories, category]);
+            } else {
+                const newCategories = [...selectedCategories];
+                newCategories.splice(index, 1);
+                setSelectedCategories(newCategories);
+            }
         }
     };
 
@@ -38,38 +39,39 @@ const Map = () => {
     };
 
     const handleSearch = () => {
-        // 선택된 정보 수집
         const searchData = {
             fashion: selectedCategories.includes("fashion"),
             beauty: selectedCategories.includes("beauty"),
             food: selectedCategories.includes("food"),
             celeb: selectedCategories.includes("celeb"),
             digital: selectedCategories.includes("digital"),
-            character: selectedCategories.includes("character"),
+            charactor: selectedCategories.includes("charactor"),
             living: selectedCategories.includes("living"),
             game: selectedCategories.includes("game"),
-            local: selectedSubregion,
-            city: selectedRegion,
-            period: selectedDate
+            local: selectedSubregion !== null ? selectedSubregion : "",
+            city: selectedRegion !== null ? selectedRegion : "",
+            period: selectedDate !== null ? selectedDate : 0
         };
-    
-        // API 요청 생성
+
+        console.log("조회 데이터:", searchData);
+
         const queryParams = new URLSearchParams(searchData).toString();
         const apiUrl = `${apiURLs.map}?${queryParams}`;
 
-        // API 요청 보내기
         fetch(apiUrl)
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok " + response.statusText);
+                }
+                return response.json();
+            })
             .then(data => {
-                // 받아온 데이터를 활용하여 필요한 작업 수행
                 console.log("API 응답 데이터:", data);
             })
             .catch(error => {
                 console.error("API 요청 오류:", error);
             });
     };
-    
-    
 
     useEffect(() => {
         const script = document.createElement("script");
@@ -104,8 +106,8 @@ const Map = () => {
                         </div>
                         <div className="date-buttons">
                             <button
-                                className={"date-button " + (selectedDate === null ? "selected" : "")}
-                                onClick={() => handleDateSelection(null)}
+                                className={"date-button " + (selectedDate === 0 ? "selected" : "")}
+                                onClick={() => handleDateSelection(0)}
                             >
                                 오늘
                             </button>
@@ -130,38 +132,38 @@ const Map = () => {
                         <div className="region-buttons">
                             <button
                                 className={"region-button " + (selectedRegion === null ? "selected" : "")}
-                                onClick={() => handleRegionSelection("")}
+                                onClick={() => handleRegionSelection(null)}
                             >
                                 전체
                             </button>
                             <button
-                                className={"region-button " + (selectedRegion === "서울특별시" ? "selected" : "")}
-                                onClick={() => handleRegionSelection("서울특별시")}
+                                className={"region-button " + (selectedRegion === "서울특별" ? "selected" : "")}
+                                onClick={() => handleRegionSelection("서울")}
                             >
                                 서울특별시
                             </button>
                             <button
-                                className={"region-button " + (selectedRegion === "경기도" ? "selected" : "")}
-                                onClick={() => handleRegionSelection("경기도")}
+                                className={"region-button " + (selectedRegion === "경기" ? "selected" : "")}
+                                onClick={() => handleRegionSelection("경기")}
                             >
                                 경기도
                             </button>
                             <button
-                                className={"region-button " + (selectedRegion === "인천광역시" ? "selected" : "")}
-                                onClick={() => handleRegionSelection("인천광역시")}
+                                className={"region-button " + (selectedRegion === "인천" ? "selected" : "")}
+                                onClick={() => handleRegionSelection("인천")}
                             >
                                 인천광역시
                             </button>
                             <button
-                                className={"region-button " + (selectedRegion === "부산광역시" ? "selected" : "")}
-                                onClick={() => handleRegionSelection("부산광역시")}
+                                className={"region-button " + (selectedRegion === "부산" ? "selected" : "")}
+                                onClick={() => handleRegionSelection("부산")}
                             >
                                 부산광역시
                             </button>
                         </div>
                     </div>
 
-                    {selectedRegion === "서울특별시" && (
+                    {selectedRegion === "서울" && (
                         <div className="subregion">
                             <div className="subregion-buttons">
                                 <button
@@ -240,7 +242,7 @@ const Map = () => {
                         </div>
                         <div className="category-buttons">
                             <button
-                                className={"category-button " +  (selectedCategories.length === 0 ? "selected" : "")}
+                                className={"category-button " + (selectedCategories.length === 8 ? "selected" : "")}
                                 onClick={() => handleCategorySelection("")}
                             >
                                 전체
@@ -258,12 +260,6 @@ const Map = () => {
                                 뷰티
                             </button>
                             <button
-                                className={"category-button " + (selectedCategories.includes("music") ? "selected" : "")}
-                                onClick={() => handleCategorySelection("music")}
-                            >
-                                음악
-                            </button>
-                            <button
                                 className={"category-button " + (selectedCategories.includes("food") ? "selected" : "")}
                                 onClick={() => handleCategorySelection("food")}
                             >
@@ -276,16 +272,16 @@ const Map = () => {
                                 연예
                             </button>
                             <button
-                                className={"category-button " + (selectedCategories.includes("character") ? "selected" : "")}
-                                onClick={() => handleCategorySelection("character")}
-                            >
-                                캐릭터
-                            </button>
-                            <button
                                 className={"category-button " + (selectedCategories.includes("digital") ? "selected" : "")}
                                 onClick={() => handleCategorySelection("digital")}
                             >
                                 가전/디지털
+                            </button>
+                            <button
+                                className={"category-button " + (selectedCategories.includes("charactor") ? "selected" : "")}
+                                onClick={() => handleCategorySelection("charactor")}
+                            >
+                                캐릭터
                             </button>
                             <button
                                 className={"category-button " + (selectedCategories.includes("living") ? "selected" : "")}
@@ -318,4 +314,3 @@ const Map = () => {
 };
 
 export default Map;
-
