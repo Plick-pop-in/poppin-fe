@@ -51,8 +51,8 @@ export default function Signup() {
 
     const handleEmailCheck = async () => {
         try {
-            // const response = await axios.post(apiURLs.checkEmail, { email: formData.email });
-            const response = await axios.post("http://localhost:8080/v1/user/check-email", { email: formData.email });
+            const response = await axios.post(apiURLs.checkEmail, { email: formData.email });
+            //const response = await axios.post("http://localhost:8080/v1/user/check-email", { email: formData.email });
             setEmailCheckResult(response.data ? "이 이메일은 이미 사용 중입니다." : "사용 가능한 이메일입니다.");
         } catch (error) {
             console.error("이메일 확인 오류:", error);
@@ -61,8 +61,8 @@ export default function Signup() {
 
     const handleNicknameCheck = async () => {
         try {
-            // const response = await axios.post(apiURLs.checkNickname, { nickname: formData.nickname });
-            const response = await axios.post("http://localhost:8080/v1/user/check-nickname", { nickname: formData.nickname });
+            const response = await axios.post(apiURLs.checkNickname, { nickname: formData.nickname });
+            //const response = await axios.post("http://localhost:8080/v1/user/check-nickname", { nickname: formData.nickname });
             setNicknameCheckResult(response.data ? "이 닉네임은 이미 사용 중입니다." : "사용 가능한 닉네임입니다.");
         } catch (error) {
             console.error("닉네임 확인 오류:", error);
@@ -79,8 +79,8 @@ export default function Signup() {
 
         try {
             console.log(formData);
-            // const response = await axios.post(apiURLs.Signup, formData);
-            const response = await axios.post("http://localhost:8080/v1/user/signup", formData);
+            const response = await axios.post(apiURLs.Signup, formData);
+            //const response = await axios.post("http://localhost:8080/v1/user/signup", formData);
             console.log(response.data);
             alert("회원가입이 완료되었습니다.");
             moveToLogin();
