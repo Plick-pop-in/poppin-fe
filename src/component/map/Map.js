@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./css/Map.css";
+import apiURLs from "../../apiURL";
 
 const Map = () => {
     const [selectedDate, setSelectedDate] = useState(null);
@@ -37,9 +38,38 @@ const Map = () => {
     };
 
     const handleSearch = () => {
-        // 조회 기능 추가
-        console.log("조회 버튼 클릭됨");
+        // 선택된 정보 수집
+        const searchData = {
+            fashion: selectedCategories.includes("fashion"),
+            beauty: selectedCategories.includes("beauty"),
+            food: selectedCategories.includes("food"),
+            celeb: selectedCategories.includes("celeb"),
+            digital: selectedCategories.includes("digital"),
+            character: selectedCategories.includes("character"),
+            living: selectedCategories.includes("living"),
+            game: selectedCategories.includes("game"),
+            local: selectedSubregion,
+            city: selectedRegion,
+            period: selectedDate
+        };
+    
+        // API 요청 생성
+        const queryParams = new URLSearchParams(searchData).toString();
+        const apiUrl = `${apiURLs.map}?${queryParams}`;
+
+        // API 요청 보내기
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                // 받아온 데이터를 활용하여 필요한 작업 수행
+                console.log("API 응답 데이터:", data);
+            })
+            .catch(error => {
+                console.error("API 요청 오류:", error);
+            });
     };
+    
+    
 
     useEffect(() => {
         const script = document.createElement("script");
@@ -100,7 +130,7 @@ const Map = () => {
                         <div className="region-buttons">
                             <button
                                 className={"region-button " + (selectedRegion === null ? "selected" : "")}
-                                onClick={() => handleRegionSelection(null)}
+                                onClick={() => handleRegionSelection("")}
                             >
                                 전체
                             </button>
@@ -211,7 +241,7 @@ const Map = () => {
                         <div className="category-buttons">
                             <button
                                 className={"category-button " +  (selectedCategories.length === 0 ? "selected" : "")}
-                                onClick={() => handleCategorySelection(null)}
+                                onClick={() => handleCategorySelection("")}
                             >
                                 전체
                             </button>
