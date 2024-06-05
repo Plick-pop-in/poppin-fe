@@ -16,6 +16,6 @@ export const loginPost = async (loginParam) => {
 }
 
 export const modifyMember = async (member) => {
-    const res = await axios.put(`${API_SERVER_HOST}/v1/nickname/modify`, member);
+    const res = await axios.put(`${API_SERVER_HOST}/v1/user/modify-nickname`, {id: member.id, nickname: member.nickname});
     return res.data;
 }
