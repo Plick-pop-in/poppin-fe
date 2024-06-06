@@ -4,19 +4,18 @@ import apiURLs from "../../apiURL";
 
 const Map = () => {
     const [selectedDate, setSelectedDate] = useState(0);
+    const [selectedRegion, setSelectedRegion] = useState(null);
+    const [selectedCategories, setSelectedCategories] = useState([]);
+    const [selectedSubregion, setSelectedSubregion] = useState(null);
 
     const handleDateSelection = (date) => {
         setSelectedDate(date);
     };
 
-    const [selectedRegion, setSelectedRegion] = useState(null);
-
     const handleRegionSelection = (region) => {
         setSelectedRegion(region);
         setSelectedSubregion(null); // 새로운 지역 선택 시 하위 지역 초기화
     };
-
-    const [selectedCategories, setSelectedCategories] = useState([]);
 
     const handleCategorySelection = (category) => {
         if (category === "") {
@@ -33,7 +32,6 @@ const Map = () => {
         }
     };
 
-    const [selectedSubregion, setSelectedSubregion] = useState(null);
     const handleSubregionSelection = (subregion) => {
         setSelectedSubregion(subregion);
     };
@@ -81,33 +79,53 @@ const Map = () => {
         .catch(error => {
            console.error("API 요청 오류:", error);
         });
-        
-    }
-    
-    useEffect(() => {
+    };
+
+    const loadMap = () => {
+        if (window.kakao && window.kakao.maps) {
+            const container = document.getElementById("map");
+            const options = {
+                center: new window.kakao.maps.LatLng(37.5665, 126.9780),
+                level: 3,
+            };
+            const map = new window.kakao.maps.Map(container, options);
+            
+            const marker = new window.kakao.maps.Marker({
+                position: map.getCenter(),
+            });
+            marker.setMap(map);
+
+            if (window.kakao.maps.services) {
+                console.log(window.kakao.maps.services);
+                const geocoder = new window.kakao.maps.services.Geocoder();
+                console.log(geocoder);
+            } else {
+                console.error("Kakao maps services library not loaded.");
+            }
+        } else {
+            console.error("Kakao maps library not loaded.");
+        }
+    };
+
+        useEffect(() => {
         const script = document.createElement("script");
         script.type = "text/javascript";
         script.src = "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=744f339bbcbfcf5e57970eef6e98d373&libraries=services";
+        document.head.appendChild(script);
         
         script.onload = () => {
-            window.kakao.maps.load(() => {
-                const container = document.getElementById("map");
-                const options = {
-                    center: new window.kakao.maps.LatLng(37.5665, 126.9780),
-                    level: 3
-                };
-                const map = new window.kakao.maps.Map(container, options);
-                const geocoder = new window.kakao.maps.services.Geocoder();
-            });
+            if (window.kakao && window.kakao.maps) {
+                window.kakao.maps.load(loadMap);
+            } else {
+                console.error("Kakao maps library not available on window object");
+            }
+        };  
+
+        script.onerror = () => {
+            console.error("Failed to load Kakao Maps script.");
         };
-        
-        document.body.appendChild(script);
-        
-        return () => {
-            document.body.removeChild(script);
-        };
-    }, []);    
-    
+    }, []); 
+
     return (
         <div className="whole-page">
             <div className="map-page">
