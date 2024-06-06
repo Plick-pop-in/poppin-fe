@@ -87,7 +87,7 @@ const Map = () => {
     useEffect(() => {
         const script = document.createElement("script");
         script.type = "text/javascript";
-        script.src = "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=YOUR_APP_KEY&libraries=services";
+        script.src = "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=744f339bbcbfcf5e57970eef6e98d373&libraries=services";
         
         script.onload = () => {
             window.kakao.maps.load(() => {
@@ -106,8 +106,7 @@ const Map = () => {
         return () => {
             document.body.removeChild(script);
         };
-    }, []);
-    
+    }, []);    
     
     return (
         <div className="whole-page">
