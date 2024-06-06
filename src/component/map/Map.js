@@ -83,11 +83,12 @@ const Map = () => {
         });
         
     }
+    
     useEffect(() => {
         const script = document.createElement("script");
-        script.src = "//dapi.kakao.com/v2/maps/sdk.js?appkey=744f339bbcbfcf5e57970eef6e98d373&libraries=services";
-        script.async = true;
-
+        script.type = "text/javascript";
+        script.src = "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=YOUR_APP_KEY&libraries=services";
+        
         script.onload = () => {
             window.kakao.maps.load(() => {
                 const container = document.getElementById("map");
@@ -96,16 +97,18 @@ const Map = () => {
                     level: 3
                 };
                 const map = new window.kakao.maps.Map(container, options);
+                const geocoder = new window.kakao.maps.services.Geocoder();
             });
         };
-
-        document.head.appendChild(script);
-
+        
+        document.body.appendChild(script);
+        
         return () => {
-            document.head.removeChild(script);
+            document.body.removeChild(script);
         };
     }, []);
-
+    
+    
     return (
         <div className="whole-page">
             <div className="map-page">
