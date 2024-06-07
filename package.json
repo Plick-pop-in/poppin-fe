@@ -55,6 +55,7 @@
     ]
   },
   "proxy": "http://www.plick.shop/v1/user/login",
+  "proxy": "http://www.plick.shop/v1/popup/map",
   "devDependencies": {
     "kakao.maps.d.ts": "^0.1.39"
   }

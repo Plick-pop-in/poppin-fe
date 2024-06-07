@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./css/Map.css";
 import apiURLs from "../../apiURL";
 
@@ -39,20 +39,6 @@ const Map = () => {
         setSelectedSubregion(subregion);
     };
 
-    useEffect(() => {
-        window.kakao.maps.load(() => {
-            const container = document.getElementById("map");
-            const options = {
-                center: new window.kakao.maps.LatLng(37.5665, 126.9780),
-                level: 3
-            };
-            const map = new window.kakao.maps.Map(container, options);
-            setMap(map); // Map 상태 업데이트
-            kakao.current = window.kakao; // Kakao 객체를 ref에 저장합니다
-            mapRef.current = map; // mapRef에 map을 저장합니다.
-        });
-    }, []);
-
     const handleSearch = () => {
         const searchData = {
             fashion: selectedCategories.includes("fashion"),
@@ -67,62 +53,82 @@ const Map = () => {
             city: selectedRegion !== null ? selectedRegion : "",
             period: selectedDate !== null ? selectedDate : 0
         };
-    
+
         console.log("조회 데이터:", searchData);
-    
+
         const queryParams = new URLSearchParams(searchData).toString();
         const apiUrl = `${apiURLs.map}?${queryParams}`;
-    
+
         fetch(apiUrl)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("네트워크 응답이 올바르지 않습니다 " + response.statusText);
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log("API 응답 데이터:", data);
-    
-            // 데이터가 객체인지 확인
-            if (Array.isArray(data.data)) {
-                data.data.forEach(popup => {
-                    const popupAddress = `${popup.popupCity} ${popup.popupLocal} ${popup.popupLocation}`;
-                    console.log("주소: ", popupAddress);
-    
-                    // 주소-좌표 변환 객체를 생성합니다
-                    var geocoder = new window.kakao.maps.services.Geocoder();
-    
-                    // // 주소로 좌표를 검색합니다
-                    geocoder.addressSearch(popupAddress, function(result, status) {
-                        if (status === kakao.maps.services.Status.OK) {
-                            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-                    
-                            // 결과값으로 받은 위치를 마커로 표시합니다
-                            var marker = new kakao.maps.Marker({
-                                map: map,
-                                position: coords
-                            });
-                    
-                            // 인포윈도우로 장소에 대한 설명을 표시합니다
-                            var infowindow = new kakao.maps.InfoWindow({
-                                content: '<div style="width:150px;text-align:center;padding:6px 0;">`${popup.popupName}</div>'
-                            });
-                            infowindow.open(map, marker);
-                    
-                            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-                            map.setCenter(coords);
-                        } 
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("네트워크 응답이 올바르지 않습니다 " + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log("API 응답 데이터:", data);
+
+                if (Array.isArray(data.data)) {
+                    data.data.forEach(popup => {
+                        const popupAddress = `${popup.popupCity} ${popup.popupLocal} ${popup.popupLocation}`;
+                        console.log("주소: ", popupAddress);
+
+                        const geocoder = new kakao.current.maps.services.Geocoder();
+                        geocoder.addressSearch(popupAddress, function(result, status) {
+                            console.log("Geocoder 호출 결과:", result, status); // 디버깅용 로그
+
+                            if (status === kakao.current.maps.services.Status.OK) {
+                                var coords = new kakao.current.maps.LatLng(result[0].y, result[0].x);
+
+                                var marker = new kakao.current.maps.Marker({
+                                    map: mapRef.current,
+                                    position: coords
+                                });
+
+                                var infowindow = new kakao.current.maps.InfoWindow({
+                                    content: `<div style="width:150px;text-align:center;padding:6px 0;">${popup.popupName}</div>`
+                                });
+                                infowindow.open(mapRef.current, marker);
+
+                                mapRef.current.setCenter(coords);
+                            } else {
+                                console.error("Geocoder 호출 실패:", status); // 오류 로그
+                            }
+                        });
                     });
-                });
-            } else {
-                console.error("API 응답 데이터의 'data'가 배열이 아닙니다.");
-            }
-        })
-        .catch(error => {
-           console.error("API 요청 오류:", error);
-        });
+                } else {
+                    console.error("API 응답 데이터의 'data'가 배열이 아닙니다.");
+                }
+            })
+            .catch(error => {
+                console.error("API 요청 오류:", error);
+            });
     };
-    
+
+    useEffect(() => {
+        if (!window.kakao || !window.kakao.maps) {
+            console.error("Kakao Maps API is not loaded.");
+            return;
+        }
+
+        // Kakao Maps API 로드 완료 후 실행
+        window.kakao.maps.load(() => {
+            const container = document.getElementById("map");
+            const options = {
+                center: new window.kakao.maps.LatLng(37.5665, 126.9780),
+                level: 3
+            };
+            const map = new window.kakao.maps.Map(container, options);
+            setMap(map); // Map 상태 업데이트
+            kakao.current = window.kakao; // Kakao 객체를 ref에 저장합니다
+            mapRef.current = map; // mapRef에 map을 저장합니다
+
+            // 검색 버튼 클릭 핸들러를 등록합니다
+            document.querySelector(".search-button").addEventListener("click", handleSearch);
+        });
+    }, []);
+
     return (
         <div className="whole-page">
             <div className="map-page">
