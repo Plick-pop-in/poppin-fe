@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import "./css/Map.css";
 import apiURLs from "../../apiURL";
 
@@ -7,6 +7,9 @@ const Map = () => {
     const [selectedRegion, setSelectedRegion] = useState(null);
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [selectedSubregion, setSelectedSubregion] = useState(null);
+    const [map, setMap] = useState(null); // Map 상태 추가
+    const kakao = useRef(null); // Kakao 객체를 저장할 ref
+    const mapRef = useRef(null);
 
     const handleDateSelection = (date) => {
         setSelectedDate(date);
@@ -37,26 +40,17 @@ const Map = () => {
     };
 
     useEffect(() => {
-        const script = document.createElement("script");
-        script.src = "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=744f339bbcbfcf5e57970eef6e98d373&libraries=services";
-        script.async = true;
-
-        script.onload = () => {
-            window.kakao.maps.load(() => {
-                const container = document.getElementById("map");
-                const options = {
-                    center: new window.kakao.maps.LatLng(37.5665, 126.9780),
-                    level: 3
-                };
-                const map = new window.kakao.maps.Map(container, options);
-            });
-        };
-
-        document.head.appendChild(script);
-
-        return () => {
-            document.head.removeChild(script);
-        };
+        window.kakao.maps.load(() => {
+            const container = document.getElementById("map");
+            const options = {
+                center: new window.kakao.maps.LatLng(37.5665, 126.9780),
+                level: 3
+            };
+            const map = new window.kakao.maps.Map(container, options);
+            setMap(map); // Map 상태 업데이트
+            kakao.current = window.kakao; // Kakao 객체를 ref에 저장합니다
+            mapRef.current = map; // mapRef에 map을 저장합니다.
+        });
     }, []);
 
     const handleSearch = () => {
@@ -73,12 +67,12 @@ const Map = () => {
             city: selectedRegion !== null ? selectedRegion : "",
             period: selectedDate !== null ? selectedDate : 0
         };
-
+    
         console.log("조회 데이터:", searchData);
-
+    
         const queryParams = new URLSearchParams(searchData).toString();
         const apiUrl = `${apiURLs.map}?${queryParams}`;
-
+    
         fetch(apiUrl)
         .then(response => {
             if (!response.ok) {
@@ -88,12 +82,37 @@ const Map = () => {
         })
         .then(data => {
             console.log("API 응답 데이터:", data);
-        
+    
             // 데이터가 객체인지 확인
             if (Array.isArray(data.data)) {
                 data.data.forEach(popup => {
                     const popupAddress = `${popup.popupCity} ${popup.popupLocal} ${popup.popupLocation}`;
-                    console.log("주소: ", popupAddress);       
+                    console.log("주소: ", popupAddress);
+    
+                    // 주소-좌표 변환 객체를 생성합니다
+                    var geocoder = new window.kakao.maps.services.Geocoder();
+    
+                    // // 주소로 좌표를 검색합니다
+                    geocoder.addressSearch(popupAddress, function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+                    
+                            // 결과값으로 받은 위치를 마커로 표시합니다
+                            var marker = new kakao.maps.Marker({
+                                map: map,
+                                position: coords
+                            });
+                    
+                            // 인포윈도우로 장소에 대한 설명을 표시합니다
+                            var infowindow = new kakao.maps.InfoWindow({
+                                content: '<div style="width:150px;text-align:center;padding:6px 0;">`${popup.popupName}</div>'
+                            });
+                            infowindow.open(map, marker);
+                    
+                            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+                            map.setCenter(coords);
+                        } 
+                    });
                 });
             } else {
                 console.error("API 응답 데이터의 'data'가 배열이 아닙니다.");
@@ -103,7 +122,7 @@ const Map = () => {
            console.error("API 요청 오류:", error);
         });
     };
-
+    
     return (
         <div className="whole-page">
             <div className="map-page">
