@@ -1,7 +1,7 @@
 import axios from "axios";
 
-//const API_SERVER_HOST = 'http://www.plick.shop';
-const API_SERVER_HOST = 'http://localhost:8080';
+const API_SERVER_HOST = 'http://www.plick.shop';
+//const API_SERVER_HOST = 'http://localhost:8080';
 
 
 export const loginPost = async (loginParam) => {
