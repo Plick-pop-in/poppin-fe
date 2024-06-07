@@ -1,16 +1,48 @@
 .mychat {
-    display: flex;
-    align-items: flex-start; /* 요소들을 상단에 정렬합니다. */
-    background-color: #FCFCFD;
-    padding-left: 60px;
-    padding-right: 60px;
-  }
-  
-  .sidebar {
-    flex: 0 0 auto; /* 사이드바가 컨테이너 크기를 넘지 않도록 설정 */
-  }
-  
-  .main-content {
-    flex-grow: 1; /* 남은 공간을 모두 차지하여 화면 전체를 채웁니다. */
-  }
-  
+  display: flex;
+  align-items: flex-start;
+  background-color: #FCFCFD;
+  padding-left: 60px;
+  padding-right: 60px;
+  height: 100vh; /* 전체 화면 높이를 차지하도록 설정 */
+}
+
+.sidebar {
+  flex: 0 0 auto; /* 사이드바가 컨테이너 크기를 넘지 않도록 설정 */
+}
+
+.main-content {
+  flex-shrink: 0;
+  width: 736px;
+  height: 802px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  margin: auto; /* 수평 중앙 정렬 */
+}
+
+.my-chat-title-container {
+  width: 753px;
+  height: 177px;
+  flex-shrink: 0;
+  text-align: left;
+  display: flex;
+}
+
+.my-chat-title {
+  font-size: 36px;
+}
+
+.my-chat-subtitle {
+  font-size: 24px;
+}
+
+.chat-box-container {
+  width: 753px;
+  height: 607px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
