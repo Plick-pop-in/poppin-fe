@@ -50,7 +50,7 @@ const PopupDetail = () => {
   //url에서 id 값 가져오기
   const { popupId } = useParams();
   const [popup, setPopup] = useState(null);
-  const joinLive = useJoinLive();
+  const joinLive = useJoinLive(popupId);
 
   //JSON 파일에서 해당 데이터 불러오기
   useEffect(() => {
@@ -91,7 +91,7 @@ const PopupDetail = () => {
           <div className="display-flex">
             <div className="detail-name">{popup.popupName}</div>
             <div className="detail-live" >
-              <button onClick={()=>joinLive(popupId)}>Live chat</button>
+              <button onClick={()=>joinLive()}>Live chat</button>
             </div>
           </div>
           <div className="detail-date">{popup.popupPeriod}</div>

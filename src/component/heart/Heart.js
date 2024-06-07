@@ -86,7 +86,6 @@ const Heart = (item) =>{
         }
     };
 
-    
     // 유저 로그인시 아닐시 차이 있게
     return(
         <div className="heart">
