@@ -13,8 +13,8 @@ const WishList = () => {
     // 찜 목록 가져오는 함수
     const getWish = async (userId) => {
         try {
-            // const url = `${apiURLs.wishlist}?find=${userId}`;
-            const url = `http://localhost:8080/v1/popup/wishlist?find=${userId}`;
+            const url = `${apiURLs.wishlist}?find=${userId}`;
+            // const url = `http://localhost:8080/v1/popup/wishlist?find=${userId}`;
             console.log("Fetching URL:", url);
             const response = await axios.get(url);
             setWish(response.data.data);
