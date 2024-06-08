@@ -1,0 +1,61 @@
+.wishlist-page {
+    display: flex;
+    align-items: flex-start;
+    background-color: #FCFCFD;
+    padding-left: 60px;
+    padding-right: 60px;
+    margin-bottom: 250px;
+  }
+
+.sidebar {
+    flex: 0 0 auto; /* 사이드바가 컨테이너 크기를 넘지 않도록 설정 */
+    margin-right: 30px;
+}
+
+.main-content {
+    flex-shrink: 0;
+    width: 736px;
+    height: 802px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    margin: auto; /* 수평 중앙 정렬 */
+  }
+
+.wish-list-title {
+    width: 100%;
+    height: auto;
+    flex-shrink: 0;
+    text-align: left;
+    display: flex;
+    margin-top: 70px;
+    margin-left: 30px;
+    margin-bottom: 10px;
+  }
+
+.wish-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* 박스 사이의 간격 설정 */
+}
+
+.wish-box {
+    width: 260px; /* 원하는 가로 크기 */
+    height: 30%; /* 원하는 세로 크기 */
+    border-radius: 10px; /* 모서리 둥글게 */
+    overflow: hidden; /* 내부 요소가 모서리를 넘어가면 숨김 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+    transition: transform 0.3s ease; /* 호버 효과 시 부드럽게 변환 */
+}
+
+.wish-box:hover {
+    transform: translateY(-5px); /* 호버 시 약간 위로 이동 */
+}
+
+.wish-box-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-top: 10px; /* 이름과 이미지 사이에 간격 추가 */
+}

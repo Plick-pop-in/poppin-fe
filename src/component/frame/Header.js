@@ -38,7 +38,7 @@ const Header = () => {
           <a href="/popup" className="header-button">Popup</a>
           <a href="/map" className="header-button">Map</a>
           <a href="/live" className={`header-button ${!isLogin ? 'with-margin' : ''}`}>Live</a>
-          {isLogin && <a href="/mypage" className="header-button with-margin">Mypage</a>}
+          {isLogin && <a href="/UserInfo" className="header-button with-margin">Mypage</a>}
         </div>
         {loginState.email ?
         <><LogoutComponent></LogoutComponent></> :
