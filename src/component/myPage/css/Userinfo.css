@@ -1,17 +1,21 @@
 .userinfo-container {
     display: flex;
-    justify-content: center;
-    align-items:start;
-    height: 100%;
-    flex-direction: column; /* 요소들을 세로로 배치합니다 */
-    padding: 100px;
-    background-color: rgba(255, 255, 255, 0); /* 배경색을 완전히 투명하게 설정 */
+    align-items: flex-start; /* 요소들을 상단에 정렬합니다. */
+    background-color: #FCFCFD;
+    padding-left: 60px;
+    padding-right: 60px;
+    margin-bottom: 50px;
+}
+
+.main-contents {
+    margin-left: 30px;
 }
 
 .userinfo-content {
     display: flex;
     align-items: center; /* 수직 가운데 정렬 */
-    margin-bottom: 50px;
+    margin-bottom: 20px;
+    margin-top: 50px;
 }
 
 .userinfo-image {
@@ -120,7 +124,6 @@
 }
 
 .modal-logo {
-
     width: 150px; /* 원하는 크기로 조절합니다. */
     height: auto; /* 가로 사이즈에 맞추어 세로 사이즈를 자동 조절합니다. */
 }

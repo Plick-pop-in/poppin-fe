@@ -216,6 +216,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { login, updatePoints } from './slices/loginSlice';
 import axios from 'axios';
 import apiURLs from '../../apiURL';
+import SidebarComponent from './module/sidebarComponent';
 
 const UserInfo = () => {
     const loginInfo = useSelector(state => state.loginSlice);
@@ -305,6 +306,8 @@ const UserInfo = () => {
 
     return (
         <div className="userinfo-container">
+            <SidebarComponent/>
+            <div className='main-contents'>
             <div className="userinfo-content">
                 <img src={require('../../assets/images/ic_bigPerson.png')} alt='person icon' className="userinfo-image" />
                 <span className="userinfo-nickname">{loginInfo.nickname}</span>
@@ -412,6 +415,7 @@ const UserInfo = () => {
                         onClick={closeModal}>변경하기</button>
                 </span>
             </Modal>
+            </div>
         </div>
     );
 };
