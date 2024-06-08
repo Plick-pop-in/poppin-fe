@@ -73,13 +73,26 @@ export default function Signup() {
         e.preventDefault();
 
         // 유효성 검사를 통과하지 못한 경우 회원가입을 진행하지 않음
-        if (emailError || passwordError || emailCheckResult === "이 이메일은 이미 사용 중입니다." || confirmPasswordError || nicknameCheckResult === "이 닉네임은 이미 사용 중입니다.") {
+        if (
+            emailError !== "" ||
+            passwordError !== "" ||
+            confirmPasswordError !== "" ||
+            emailCheckResult === "" ||
+            nicknameCheckResult === "" ||
+            emailCheckResult === "이 이메일은 이미 사용 중입니다." ||
+            nicknameCheckResult === "이 닉네임은 이미 사용 중입니다."
+        ) {
+            console.log("One of the conditions was true, returning from function.");
             return;
         }
+        
+        // 이후 로직 실행
+        console.log("All conditions are false, proceeding with function.");
+
 
         try {
             console.log(formData);
-            const response = await axios.post(apiURLs.Signup, formData);
+            const response = await axios.post(apiURLs.signup, formData);
             //const response = await axios.post("http://localhost:8080/v1/user/signup", formData);
             console.log(response.data);
             alert("회원가입이 완료되었습니다.");
