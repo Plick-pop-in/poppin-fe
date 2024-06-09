@@ -1,7 +1,6 @@
-// MyPage.js
 import React from 'react';
 import SidebarComponent from './module/sidebarComponent';
-import UserInfo from './UserInfo'; // UserInfo를 import합니다.
+import UserInfo from './UserInfo';
 import './css/Mypage.css';
 
 class Mypage extends React.Component {
