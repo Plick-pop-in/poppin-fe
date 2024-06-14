@@ -1,15 +1,13 @@
 import React from "react";
-import './css/LiveBox.css';
+import "./css/LiveBox.css";
 import { useNavigate } from "react-router-dom";
-import useJoinLive from "../live/useJoinLive";
 
 const LiveBox = (props) => {
     const navigate = useNavigate();
-    const joinLive = useJoinLive();
 
-    const clickPopupButton = (item) => {
-        navigate("/PopupDetail/${item.id}");
-    }
+    const handleJoinClick = () => {
+        navigate(`/chat?chatboxname=${encodeURIComponent(props.name)}`);
+    };
 
     return (
         <div className="list-box">
@@ -22,16 +20,15 @@ const LiveBox = (props) => {
                 </div>
                 <div className="chat-box-join-info">
                     <div className="chat-box-liked-content">
-                    <img className="chat-box-ic-liked" src={require('../../assets/images/ic_person.png')} />
+                        <img className="chat-box-ic-liked" src={require('../../assets/images/ic_person.png')} />
                         <div className="chat-box-liked">{props.joinedPeople}명이 와글와글</div>
                     </div>
                     <div className="chat-box-point">Ⓒ100P</div>
-                    {/* <button className="join-button" onClick={()=>joinLive(popupId)}><strong>join</strong></button> */}
-                    <button className="join-button"><strong>join</strong></button>
+                    <button className="join-button" onClick={handleJoinClick}><strong>JOIN</strong></button>
                 </div>
             </div>
         </div>
     );
-}
+};
 
 export default LiveBox;
