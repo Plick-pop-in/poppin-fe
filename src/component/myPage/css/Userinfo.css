@@ -90,6 +90,14 @@
     display: inline;
 }
 
+.info {
+    color: #0056b3;
+    font-size: 14px;
+    font-family: 'Pretendard-Regular';
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+
 .infoLabel {
     color: #B1B5C3;
     font-size: 12px;
@@ -98,7 +106,7 @@
 }
 
 .inputWithButton-m {
-    width: auto;
+    width: 108%;
 }
 
 .infoInput1 {
@@ -112,7 +120,7 @@
     margin-right: 10px;
 }
 
-.infoInput2 {
+/* .infoInput2 {
     border: 1px solid #E6E8EC;
     background-color: #FCFCFD;
     border-radius: 5px;
@@ -121,7 +129,7 @@
     width: 95%;
     margin-bottom: 10px;
     margin-right: 10px;
-}
+} */
 
 .modal-logo {
     width: 150px; /* 원하는 크기로 조절합니다. */

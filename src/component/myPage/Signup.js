@@ -91,7 +91,6 @@ export default function Signup() {
 
 
         try {
-            console.log(formData);
             const response = await axios.post(apiURLs.signup, formData);
             //const response = await axios.post("http://localhost:8080/v1/user/signup", formData);
             console.log(response.data);
