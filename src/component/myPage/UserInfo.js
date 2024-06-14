@@ -6,6 +6,7 @@ import { login, updatePoints } from './slices/loginSlice';
 import axios from 'axios';
 import apiURLs from '../../apiURL';
 import SidebarComponent from './module/sidebarComponent';
+import useCustomLogin from "./module/useCustomLogin";
 
 const UserInfo = () => {
     const loginInfo = useSelector(state => state.loginSlice);
@@ -86,11 +87,62 @@ const UserInfo = () => {
         },
         content: {
             width: "35%",
-            height: "auto",
+            height: "240px",
             margin: "auto",
             borderRadius: "4px",
             boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
         },
+    };
+
+    // 비밀번호 변경 창 내부 함수 -------------------------------
+    const [emailCheckResult, setEmailCheckResult] = useState("");
+    const [email, setEmail] = useState("");
+    const {doLogout, moveToLogin} = useCustomLogin()
+
+    const handleModalChange = (e) => {
+        const { value } = e.target;
+        console.log("value : " + value);
+        setEmail(value);
+    };
+
+    const handleEmailCheck = () => {
+        // 로그인된 이메일과 비교
+        if (email === member.email) {
+            setEmailCheckResult("이메일이 유효합니다.");
+        } else {
+            setEmailCheckResult("이메일이 유효하지 않습니다.");
+        }
+    };
+    
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        // 이메일 검사를 통과하지 못한 경우 비밀번호 전송을 진행하지 않음
+        if (
+            emailCheckResult === "" ||
+            emailCheckResult === "이메일이 유효하지 않습니다."
+        ) {
+            console.log("One of the conditions was true, returning from function.");
+            alert("이메일을 올바르게 입력해주세요.")
+            return;
+        }
+        
+        // 이후 로직 실행
+        console.log("All conditions are false, proceeding with function.");
+
+        try {
+            const response = await axios.post(apiURLs.modifyPassword, member.email);
+            //const response = await axios.post("http://localhost:8080/v1/user/modify-password", member.id);
+            console.log(response.data);
+            alert("임시비밀번호가 전송되었습니다. 로그아웃됩니다.");
+            doLogout();
+            moveToLogin();
+
+        } catch (error) {
+            console.error("비밀번호 변경 오류:", error);
+            alert("비밀번호 변경에 실패했습니다.");
+        }
     };
 
     return (
@@ -163,17 +215,22 @@ const UserInfo = () => {
                             src={require('../../assets/images/bigLogo.png')}
                             alt='logo' />
                     </div>
-                    <div className="infoLabel">이메일</div>
+
+                    <div className='info'>가입시 등록한 이메일을 입력하시면 이메일로 임시비밀번호를 보내드립니다.</div>
+
+                    {/* <div className="infoLabel">이메일</div> */}
                     <div className="inputWithButton-m">
                         <input
                             className="infoInput1"
                             name="email"
                             type={'text'}
                             placeholder="이메일"
+                            onChange={handleModalChange}
                         />
-                        <button className="checkButton">인증코드 받기</button>
+                        <button className="checkButton" onClick={handleEmailCheck}>이메일 확인</button>
                     </div>
-                    <div className="infoLabel">인증번호</div>
+                    {emailCheckResult && <div className="error">{emailCheckResult}</div>}
+                    {/* <div className="infoLabel">인증번호</div>
                     <div className="inputWithButton-m">
                         <input
                             className="infoInput1"
@@ -198,10 +255,10 @@ const UserInfo = () => {
                         name="pwCheck"
                         type={'password'}
                         placeholder="비밀번호"
-                    />
+                    /> */}
                     <button className='checkButton'
                         style={{ display: 'flex', width: '100%', justifyContent: 'center', marginTop: '20px' }}
-                        onClick={closeModal}>변경하기</button>
+                        onClick={handleSubmit}>임시비밀번호 받기</button>
                 </span>
             </Modal>
             </div>
