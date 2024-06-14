@@ -26,7 +26,7 @@ const ChatScreen = () => {
     useEffect(() => {
         if (!client) {
             const newClient = new Client({
-                brokerURL: "wss://www.plick.shop/ws", //로컬->배포주소 변경
+                brokerURL: "ws://www.plick.shop/ws", //로컬->배포주소 변경
                 debug: function (str) {
                     console.log(str);
                 },
