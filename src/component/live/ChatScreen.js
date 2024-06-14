@@ -55,15 +55,7 @@ const ChatScreen = () => {
         console.log("받은 메시지: ", message.body);
         const body = JSON.parse(message.body);
 
-        // ID를 사용하여 중복 확인
-        const existingMessage = messages.find(msg => msg.id === body.id);
-        if (!existingMessage) {
-            setMessages(prevMessages => {
-                const updatedMessages = [...prevMessages, body];
-                console.log("업데이트된 messages 상태: ", updatedMessages);
-                return updatedMessages;
-            });
-        }
+        setMessages(prevMessages => [...prevMessages, body]);
     };
 
     const sendMessage = () => {
