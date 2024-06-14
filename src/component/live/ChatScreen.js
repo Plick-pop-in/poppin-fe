@@ -1,32 +1,21 @@
 import React, { useState, useEffect } from "react";
-import ChatMessage from "./ChatMessage";
 import { Client } from '@stomp/stompjs';
+import { useSelector, useDispatch } from 'react-redux';
+import ChatMessage from "./ChatMessage";
 import "./css/ChatScreen.css";
 
 const ChatScreen = () => {
     const [messages, setMessages] = useState([]);
     const [client, setClient] = useState(null);
     const [inputMessage, setInputMessage] = useState("");
-
-    const handleMessage = (message) => {
-        console.log("받은 메시지: ", message.body); // 메시지 확인용 로그
-        const body = JSON.parse(message.body);
-    
-        // ID를 사용하여 중복 확인
-        const existingMessage = messages.find(msg => msg.id === body.id);
-        if (!existingMessage) {
-            setMessages(prevMessages => {
-                const updatedMessages = [...prevMessages, body];
-                console.log("업데이트된 messages 상태: ", updatedMessages); // 상태 업데이트 확인용 로그
-                return updatedMessages;
-            });
-        }
-    };
+    const loginInfo = useSelector(state => state.login); // Redux store에서 로그인 정보 가져오기
+    const dispatch = useDispatch();
 
     useEffect(() => {
+        // WebSocket 설정
         if (!client) {
             const newClient = new Client({
-                brokerURL: "ws://www.plick.shop/ws", //로컬->배포주소 변경
+                brokerURL: "ws://www.plick.shop/ws", // WebSocket 주소
                 debug: function (str) {
                     console.log(str);
                 },
@@ -59,19 +48,34 @@ const ChatScreen = () => {
     }, [client]);
 
     useEffect(() => {
-        console.log("렌더링된 messages 상태: ", messages); // 상태 변화 확인용 로그
+        console.log("렌더링된 messages 상태: ", messages);
     }, [messages]);
+
+    const handleMessage = (message) => {
+        console.log("받은 메시지: ", message.body);
+        const body = JSON.parse(message.body);
+
+        // ID를 사용하여 중복 확인
+        const existingMessage = messages.find(msg => msg.id === body.id);
+        if (!existingMessage) {
+            setMessages(prevMessages => {
+                const updatedMessages = [...prevMessages, body];
+                console.log("업데이트된 messages 상태: ", updatedMessages);
+                return updatedMessages;
+            });
+        }
+    };
 
     const sendMessage = () => {
         if (client && client.connected) {
             const chatMessage = {
                 type: "MESSAGE",
                 content: inputMessage,
-                sender: "사용자 닉네임",
+                sender: loginInfo ? loginInfo.nickname : 'Anonymous', // Redux store에서 가져온 로그인 정보 사용
                 time: new Date().toISOString()
             };
 
-            console.log("보내는 메시지: ", chatMessage); // 메시지 전송 확인용 로그
+            console.log("보내는 메시지: ", chatMessage);
             client.publish({
                 destination: '/pub/chat.sendMessage',
                 body: JSON.stringify(chatMessage),
@@ -85,17 +89,14 @@ const ChatScreen = () => {
     return (
         <div className="chat-screen">
             <div className="chat-messages">
-                {messages.map((message, index) => {
-                    console.log("렌더링할 메시지: ", message); // 렌더링 확인용 로그
-                    return (
-                        <ChatMessage
-                            key={index}
-                            nickname={message.sender}
-                            message={message.content}
-                            time={new Date(message.time).toLocaleString()} // ISO 8601 형식을 파싱하여 표시
-                        />
-                    );
-                })}
+                {messages.map((message, index) => (
+                    <ChatMessage
+                        key={index}
+                        nickname={message.sender}
+                        message={message.content}
+                        time={new Date(message.time).toLocaleString()} // ISO 8601 형식을 파싱하여 표시
+                    />
+                ))}
             </div>
             <div className="chat-input">
                 <input
@@ -110,7 +111,6 @@ const ChatScreen = () => {
                     aria-label="전송"
                     onClick={sendMessage}
                 >
-                    
                 </button>
             </div>
         </div>
