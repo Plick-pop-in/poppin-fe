@@ -1,6 +1,9 @@
 import React, {useState} from "react";
 import useCustomLogin from "./useCustomLogin";
 import KakaoLoginComponent from "./KakaoLoginComponent";
+import Modal from 'react-modal';
+import apiURLs from '../../../apiURL';
+import axios from "axios";
 
 // 초기 설정
 const initState = {
@@ -37,6 +40,81 @@ function LoginComponent(props) {
         })
     }
 
+    // 비밀번호를 잊으셨나요? 구현 ---------------------------
+const [isOpen, setIsOpen] = useState(false);
+
+const openModal = () => {
+    setIsOpen(true);
+};
+
+const closeModal = () => {
+    setIsOpen(false);
+};
+
+const modalStyles = {
+    overlay: {
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+        zIndex: "9999",
+    },
+    content: {
+        width: "35%",
+        height: "240px",
+        margin: "auto",
+        borderRadius: "4px",
+        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+    },
+};
+
+const [emailCheckResult, setEmailCheckResult] = useState("");
+const [email, setEmail] = useState("");
+const {doLogout, moveToLogin} = useCustomLogin()
+
+const handleModalChange = (e) => {
+    const { value } = e.target;
+    console.log("value : " + value);
+    setEmail(value);
+};
+
+const handleEmailCheck = async () => {
+    try {
+        const response = await axios.post(apiURLs.checkEmail, { email: email });
+        //const response = await axios.post("http://localhost:8080/v1/user/check-email", { email: formData.email });
+        setEmailCheckResult(response.data ? "가입 확인된 이메일입니다." : "가입되지 않은 이메일입니다.");
+    } catch (error) {
+        console.error("이메일 확인 오류:", error);
+    }
+};
+
+const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(email);
+
+    // 이메일 검사를 통과하지 못한 경우 비밀번호 전송을 진행하지 않음
+    if (
+        emailCheckResult === "" ||
+        emailCheckResult === "가입되지 않은 이메일입니다."
+    ) {
+        console.log("One of the conditions was true, returning from function.");
+        alert("이메일을 올바르게 입력해주세요.")
+        return;
+    }
+    
+    // 이후 로직 실행
+    console.log("All conditions are false, proceeding with function.");
+
+    try {
+        const response = await axios.post(apiURLs.setPassword, email);
+        //const response = await axios.post("http://localhost:8080/v1/user/set-password", email);
+        console.log(response.data);
+        alert("임시비밀번호가 전송되었습니다.");
+        doLogout();
+        moveToLogin();
+
+    } catch (error) {
+        console.error("비밀번호 변경 오류:", error);
+        alert("비밀번호 변경에 실패했습니다.");
+    }
+};
 
     return (
         <div className="loginContainer">
@@ -60,7 +138,41 @@ function LoginComponent(props) {
                 onChange={handleChange}
                 placeholder="비밀번호"
             />
-            <div className="guideText">비밀번호를 잊으셨냐요?</div>
+            <div className="guideText" onClick={openModal}>비밀번호를 잊으셨냐요?</div>
+            <Modal isOpen={isOpen} onRequestClose={closeModal} style={modalStyles}>
+                <span className='modalContent'>
+                    <div className='modal-cancle'>
+                        <img
+                            src={require('../../../assets/images/ic_cancle.png')}
+                            alt='cancle'
+                            onClick={closeModal}
+                            style={{ cursor: 'pointer' }}
+                        />
+                    </div>
+                    <div className='logoContainer'>
+                        <img className='modal-logo'
+                            src={require('../../../assets/images/bigLogo.png')}
+                            alt='logo' />
+                    </div>
+
+                    <div className='info'>가입시 등록한 이메일을 입력하시면 이메일로 임시비밀번호를 보내드립니다.</div>
+
+                    <div className="inputWithButton-m">
+                        <input
+                            className="infoInput1"
+                            name="email"
+                            type={'text'}
+                            placeholder="이메일"
+                            onChange={handleModalChange}
+                        />
+                        <button className="checkButton" onClick={handleEmailCheck}>이메일 확인</button>
+                    </div>
+                    {emailCheckResult && <div className="error">{emailCheckResult}</div>}
+                    <button className='checkButton'
+                        style={{ display: 'flex', width: '100%', justifyContent: 'center', marginTop: '20px' }}
+                        onClick={handleSubmit}>임시비밀번호 받기</button>
+                </span>
+            </Modal>
             <div>
                 <button className="loginButton"
                         onClick={handleClickLogin}>로그인</button>

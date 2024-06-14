@@ -18,6 +18,8 @@ const apiURLs = {
     modifyNickname: "http://www.plick.shop/v1/user/modify-nickname",
     chargePoint: "http://www.plick.shop/v1/user/charge-point",
     wishlist : "http://www.plick.shop/v1/popup/wishlist",
+    modifyPassword : "http://www.plick.shop/v1/user/modify-password",
+    setPassword : "http://www.plick.shop/v1/user/set-password",
     // 다른 링크들도 필요에 따라 추가 가능
   };
   
