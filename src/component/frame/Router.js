@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 
 import Login from "../myPage/Login.js";
 import Main from "../main/Main.js";
@@ -38,6 +38,7 @@ const AppRouter = () => {
                 <Route path="/WishList" element={<WishList />} />
                 <Route path="/MyChat" element={<MyChat />} />
                 <Route path="KakaoRedirect" element={<KakaoRedirect/>} />
+                <Route path="/" element={<Navigate to="/Main" />} /> {/* '/'로 접속 시 '/main'으로 이동 */}
             </Routes>
             <Footer />
         </Router>
