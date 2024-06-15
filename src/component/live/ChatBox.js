@@ -37,18 +37,7 @@ const ChatBox = ({ userId }) => { // userId를 props로 받도록 수정
                     </div>
                 </div>
             ))}
-            {/* 주석처리된 부분 시작 */}
-            <div className="chat-new-box">
-                <div className="blue-rectangle">
-                    <div className="white-inner-rectangle">
-                        <img className="new-message-image" src={require('../../assets/images/ic_new_message.png')} alt="new-message-image" />
-                        <div className="user-popup-title">
-                            눈사람 눙눙이 팝업스토어
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {/* 주석처리된 부분 끝 */}
+
         </div>
     );
 };
