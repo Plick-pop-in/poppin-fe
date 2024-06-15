@@ -50,7 +50,7 @@ const PopupDetail = () => {
   //url에서 id 값 가져오기
   const { popupId } = useParams();
   const [popup, setPopup] = useState(null);
-  const joinLive = useJoinLive(popupId);
+  const joinLive = useJoinLive(popupId, popup?.popupName);
 
   //JSON 파일에서 해당 데이터 불러오기
   useEffect(() => {
@@ -78,7 +78,6 @@ const PopupDetail = () => {
     return <div>Loading. . . . . . </div>;
   }
 
-  console.log(popupId);
   return (
     <div>
       <div className="popupDetail">
