@@ -9,8 +9,8 @@ const useJoinLive=(popupId)=>{
     const loginInfo = useSelector(state => state.loginSlice);
 
     const postAPI= async() =>{
-        await axios.post("http://localhost:8080/v1/chat/joinLive", new URLSearchParams({ userId: loginInfo.id, popupId: parseInt(popupId), minusPoint:100 }))
-        //await axios.post(apiURLs.joinLive, new URLSearchParams({ userId: loginInfo.id, popupId: parseInt(popupId), minusPoint:100 }))
+        //await axios.post("http://localhost:8080/v1/chat/joinLive", new URLSearchParams({ userId: loginInfo.id, popupId: parseInt(popupId), minusPoint:100 }))
+        await axios.post(apiURLs.joinLive, new URLSearchParams({ userId: loginInfo.id, popupId: parseInt(popupId), minusPoint:100 }))
         .then((response) => {
             console.log("response", response);
             const message = response.data.message;
