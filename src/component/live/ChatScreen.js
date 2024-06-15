@@ -1,51 +1,51 @@
 import React, { useState, useEffect } from "react";
 import { Client } from '@stomp/stompjs';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import ChatMessage from "./ChatMessage";
 import "./css/ChatScreen.css";
 
-const ChatScreen = () => {
+const ChatScreen = ({ key }) => {
     const [messages, setMessages] = useState([]);
     const [client, setClient] = useState(null);
-    const [inputMessage, setInputMessage] = useState("");
     const loginInfo = useSelector(state => state.loginSlice); // Redux store에서 로그인 정보 가져오기
-    const dispatch = useDispatch();
+    const [inputMessage, setInputMessage] = useState(""); // inputMessage 상태 추가
 
     useEffect(() => {
-        // WebSocket 설정
-        if (!client) {
-            const newClient = new Client({
-                brokerURL: "ws://www.plick.shop/ws", // WebSocket 주소
-                debug: function (str) {
-                    console.log(str);
-                },
-                reconnectDelay: 5000,
-                heartbeatIncoming: 4000,
-                heartbeatOutgoing: 4000,
-            });
-
-            newClient.onConnect = () => {
-                console.log("웹소켓 연결 성공");
-                setClient(newClient);
-
-                newClient.subscribe('/sub/public', (message) => {
-                    handleMessage(message);
-                });
-            };
-
-            newClient.onStompError = (error) => {
-                console.error("웹소켓 연결 에러:", error);
-            };
-
-            newClient.activate();
+        if (client && client.connected) {
+            client.deactivate();
         }
 
+        const newClient = new Client({
+            brokerURL: "ws://www.plick.shop/ws", // WebSocket 주소
+            debug: function (str) {
+                console.log(str);
+            },
+            reconnectDelay: 5000,
+            heartbeatIncoming: 4000,
+            heartbeatOutgoing: 4000,
+        });
+
+        newClient.onConnect = () => {
+            console.log("웹소켓 연결 성공");
+            setClient(newClient);
+
+            newClient.subscribe('/sub/public', (message) => {
+                handleMessage(message);
+            });
+        };
+
+        newClient.onStompError = (error) => {
+            console.error("웹소켓 연결 에러:", error);
+        };
+
+        newClient.activate();
+
         return () => {
-            if (client && client.connected) {
-                client.deactivate();
+            if (newClient && newClient.connected) {
+                newClient.deactivate();
             }
         };
-    }, [client]);
+    }, [key]);
 
     useEffect(() => {
         console.log("렌더링된 messages 상태: ", messages);
@@ -54,7 +54,6 @@ const ChatScreen = () => {
     const handleMessage = (message) => {
         console.log("받은 메시지: ", message.body);
         const body = JSON.parse(message.body);
-
         setMessages(prevMessages => [...prevMessages, body]);
     };
 
@@ -63,7 +62,7 @@ const ChatScreen = () => {
             const chatMessage = {
                 type: "MESSAGE",
                 content: inputMessage,
-                sender: loginInfo ? loginInfo.nickname : 'Anonymous', // Redux store에서 가져온 로그인 정보 사용
+                sender: loginInfo ? loginInfo.nickname : 'Anonymous',
                 time: new Date().toISOString()
             };
 
@@ -72,7 +71,7 @@ const ChatScreen = () => {
                 destination: '/pub/chat.sendMessage',
                 body: JSON.stringify(chatMessage),
             });
-            setInputMessage("");
+            setInputMessage(""); // 메시지 전송 후 input 비우기
         } else {
             console.error("STOMP 연결 실패");
         }
@@ -93,7 +92,7 @@ const ChatScreen = () => {
                             key={index}
                             nickname={message.sender}
                             message={message.content}
-                            time={new Date(message.time).toLocaleString()} // ISO 8601 형식을 파싱하여 표시
+                            time={new Date(message.time).toLocaleString()}
                         />
                     ))}
                 </div>
@@ -105,8 +104,8 @@ const ChatScreen = () => {
                         className="chat-input-box"
                         type="text"
                         placeholder="메시지를 입력하세요."
-                        value={inputMessage}
-                        onChange={(e) => setInputMessage(e.target.value)}
+                        value={inputMessage} // inputMessage 값 바인딩
+                        onChange={(e) => setInputMessage(e.target.value)} // input 값 변경 시 inputMessage 업데이트
                         onKeyDown={handleKeyDown} // Enter 키 이벤트 핸들러 추가
                     />
                     <button
