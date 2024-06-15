@@ -25,7 +25,8 @@ const Heart = (item) =>{
             console.log('User ID:', userId);
 
             if(isLogin && loginInfo.id){
-                const url = `http://localhost:8080/v1/heart/isLike?popupId=${item.popupId}&userId=${loginInfo.id}`;
+                //const url = `http://localhost:8080/v1/heart/isLike?popupId=${item.popupId}&userId=${loginInfo.id}`;
+                const url = apiURLs.isLike + `?popupId=${item.popupId}&userId=${loginInfo.id}`;
                 const response = await axios.get(url);
                 console.log("islike", response.data.data);
                 setIsLiked(response.data.data);
@@ -36,7 +37,8 @@ const Heart = (item) =>{
     };
 
     const addHeart = async()=>{
-        await axios.post("http://localhost:8080/v1/heart/addHeart", new URLSearchParams({ popupId: item.popupId, userId: loginInfo.id }) )
+        //await axios.post("http://localhost:8080/v1/heart/addHeart", new URLSearchParams({ popupId: item.popupId, userId: loginInfo.id }) )
+        await axios.post(apiURLs.addHeart, new URLSearchParams({ popupId: item.popupId, userId: loginInfo.id }) )
         .then(response => {
             setlikeCount(response.data.data.likeCount); //heart 수 다시 가져오는거 해야함 ㅋ..
             console.log("likeCount", likeCount);
@@ -51,7 +53,8 @@ const Heart = (item) =>{
         
     // 좋아요 해제 요청
     const deleteHeart = async()=>{
-        await axios.delete(`http://localhost:8080/v1/heart/deleteHeart?popupId=${item.popupId}&userId=${loginInfo.id}` )
+        //await axios.delete(`http://localhost:8080/v1/heart/deleteHeart?popupId=${item.popupId}&userId=${loginInfo.id}` )
+        await axios.delete( apiURLs.deleteHeart+`?popupId=${item.popupId}&userId=${loginInfo.id}` )
         .then(response => {
             setlikeCount(response.data.data.likeCount);
             setIsLiked(false);
