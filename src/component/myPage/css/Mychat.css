@@ -4,6 +4,8 @@
   background-color: #FCFCFD;
   padding-left: 60px;
   padding-right: 60px;
+  padding-top: 50px;
+  padding-bottom: 120px;
   height: 100vh; /* 전체 화면 높이를 차지하도록 설정 */
 }
 
@@ -17,25 +19,28 @@
   height: 802px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-start;
   margin: auto; /* 수평 중앙 정렬 */
 }
 
 .my-chat-title-container {
   width: 753px;
-  height: 177px;
+  height: auto;
+  margin-top: 35px;
+  margin-bottom: 30px;
+  margin-left: 25px;
   flex-shrink: 0;
   text-align: left;
   display: flex;
 }
 
 .my-chat-title {
-  font-size: 36px;
+  font-size: 30px;
 }
 
 .my-chat-subtitle {
-  font-size: 24px;
+  font-size: 20px;
 }
 
 .chat-box-container {
