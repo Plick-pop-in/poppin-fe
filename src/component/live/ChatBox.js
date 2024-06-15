@@ -2,26 +2,29 @@ import React, { useState, useEffect } from "react";
 import './css/ChatBox.css';
 import axios from "axios";
 import apiURLs from "../../apiURL";
+import { useSelector } from 'react-redux'; 
 
-const ChatBox = ({ userId }) => { // userId를 props로 받도록 수정
+const ChatBox = () => {
+    const loginState = useSelector(state => state.loginSlice);
+
     const [chatList, setChatList] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
-            console.log("Fetching user chat list..."); // 데이터를 가져오는 시작 시점에 로그 출력
+            console.log("Fetching user chat list...");
             try {
                 const response = await axios.get(apiURLs.chatList, {
-                    params: { userId }
+                    params: { userId: loginState.id } // loginState에서 userId 가져오기
                 });
-                console.log("API response - user chat list:", response.data); // API 응답 데이터 로그 출력
-                setChatList(response.data.data); // 가져온 데이터를 상태에 저장
+                console.log("API response - user chat list:", response.data);
+                setChatList(response.data.data);
             } catch (error) {
-                console.error("Error fetching user chat list:", error); // 에러 발생 시 로그 출력
+                console.error("Error fetching user chat list:", error);
             }
         };
 
         fetchData();
-    }, [userId]); // userId가 변경될 때마다 fetchData 호출
+    }, [loginState.id]); // userId가 변경될 때마다 fetchData 호출
 
     return (
         <div className="chat-message-list">
@@ -37,18 +40,6 @@ const ChatBox = ({ userId }) => { // userId를 props로 받도록 수정
                     </div>
                 </div>
             ))}
-            {/* 주석처리된 부분 시작 */}
-            <div className="chat-new-box">
-                <div className="blue-rectangle">
-                    <div className="white-inner-rectangle">
-                        <img className="new-message-image" src={require('../../assets/images/ic_new_message.png')} alt="new-message-image" />
-                        <div className="user-popup-title">
-                            눈사람 눙눙이 팝업스토어
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {/* 주석처리된 부분 끝 */}
         </div>
     );
 };

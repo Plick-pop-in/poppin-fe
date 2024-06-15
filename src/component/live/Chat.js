@@ -17,7 +17,7 @@ const Chat = () => {
         <div className="chat-page-background">
             <div className="chat-page-top">
                 <div className="chat-title">
-                    {chatboxname ? chatboxname : "눈사람 눙눙이 팝업 스토어"}
+                    {chatboxname ? chatboxname : "채팅 이름 찾을 수 없음"}
                 </div>
                 <div className="chat-join-info">
                     <img className="chat-ic-person" src={require('../../assets/images/ic_person.png')} alt="person icon" />

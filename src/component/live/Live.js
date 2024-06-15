@@ -81,6 +81,7 @@ const Live = () => {
                         {live.map((popup) => (
                             <div className="list-box">
                                 <LiveBox
+                                    popupId = {popup.popupId}
                                     image={popup.popupImage}
                                     name={popup.popupName}
                                     location={popup.popupLocation}
