@@ -136,12 +136,12 @@ height: auto;
     font-size: 19px;
     line-height: 35px;
     color: #000000;
+    white-space: pre-line;
 }
 
 .dbox{ 
     padding: 20px;
     background: rgba(177, 181, 196, 0.24);
-    white-space: pre-wrap;
 }
 
 .dbox:hover{
