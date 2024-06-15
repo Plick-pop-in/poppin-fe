@@ -21,9 +21,9 @@ const LiveBox = (props) => {
                             <img className="chat-box-ic-liked" src={require('../../assets/images/ic_person.png')} />
                             <div className="chat-box-liked">{props.joinedPeople}명이 와글와글</div>
                         </div>
+                        <div className="chat-box-point">Ⓒ100P</div>
+                        <button className="join-button" onClick={()=>joinLive()}><strong>JOIN</strong></button>
                     </div>
-                    <div className="chat-box-point">Ⓒ100P</div>
-                    <button className="join-button" onClick={()=>joinLive()}><strong>JOIN</strong></button>
                 </div>
             </div>
     );
