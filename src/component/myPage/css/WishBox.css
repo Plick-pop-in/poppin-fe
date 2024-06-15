@@ -27,6 +27,12 @@
     }
 }
 
+.heart {
+    width: 45px;
+    padding-left: 3px;
+    padding-top: 10px;
+}
+
 .wish-box-name {
     overflow: hidden;
     text-overflow: ellipsis;

@@ -14,7 +14,7 @@ const WishList = () => {
     const getWish = async (userId) => {
         try {
             const url = `${apiURLs.wishlist}?find=${userId}`;
-            // const url = `http://localhost:8080/v1/popup/wishlist?find=${userId}`;
+            //const url = `http://localhost:8080/v1/popup/wishlist?find=${userId}`;
             console.log("Fetching URL:", url);
             const response = await axios.get(url);
             setWish(response.data.data);
@@ -54,6 +54,7 @@ const WishList = () => {
                                     popupId={popup.popupId}
                                     image={popup.popupImage}
                                     name={popup.popupName}
+                                    heart={popup.heart}
                             />
                             </div>
                         ))}
