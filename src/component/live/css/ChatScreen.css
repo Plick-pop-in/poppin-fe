@@ -1,6 +1,5 @@
 .chat-screen {
   display: flex;
-  width: 73%;
   height: 700px;
   flex-shrink: 0;
   background-color: white;
@@ -11,15 +10,13 @@
 }
 
 .chat-message {
-  width: fit-content;
+  width: auto;
   height: auto;
 }
 
 .chat-messages {
   width: 100%;
-  height: calc(100% - 60px); /* Chat input height + padding */
   overflow-y: auto;
-  margin-bottom: 10px;
 }
 
 .chat-input-wrapper {
