@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import useJoinLive from "../live/useJoinLive";
 
 const LiveBox = (props) => {
-    const joinLive = useJoinLive(props.popupId);
+    const joinLive = useJoinLive(props.popupId, props.name);
     const navigate = useNavigate();
 
     const handleJoinClick = useCallback(async () => {
@@ -22,11 +22,6 @@ const LiveBox = (props) => {
                 joinedPeople: props.joinedPeople
             }));
 
-            // 채팅 페이지로 네비게이션
-            navigate(`/chat?chatboxname=${encodeURIComponent(props.name)}`);
-
-            // 선택 사항: 변경 사항이 반영된 새로 고침
-            window.location.reload(true); // true는 서버에서 새로 고침을 강제로 실행합니다.
         } catch (error) {
             console.error("라이브 참여 중 오류 발생:", error);
             // 오류 처리 방법에 따라 필요한 대로 처리합니다.
@@ -48,7 +43,7 @@ const LiveBox = (props) => {
                         <div className="chat-box-liked">{props.joinedPeople}명이 와글와글</div>
                     </div>
                     <div className="chat-box-point">Ⓒ100P</div>
-                    <button className="join-button" onClick={handleJoinClick}><strong>JOIN</strong></button>
+                    <button className="join-button" onClick={()=>joinLive()}><strong>JOIN</strong></button>
                 </div>
             </div>
         </div>

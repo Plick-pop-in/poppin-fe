@@ -3,10 +3,12 @@ import useCustomLogin from "../myPage/module/useCustomLogin";
 import {useSelector} from "react-redux";
 import axios from "axios";
 import apiURLs from "../../apiURL";
+import { useNavigate } from "react-router-dom";
 
 const useJoinLive=(popupId, popupName)=>{
-    const { isLogin, moveToLogin,moveToPath } = useCustomLogin();
+    const { isLogin, moveToLogin } = useCustomLogin();
     const loginInfo = useSelector(state => state.loginSlice);
+    const navigate = useNavigate();
 
     console.log(popupName);
     const postAPI= async() =>{
@@ -26,7 +28,7 @@ const useJoinLive=(popupId, popupName)=>{
             //여기에 redirect 페이지로 이동하면 될듯~!!
             // Redirect to the chat page
             console.log("popupName" + popupName)
-            moveToPath(`/chat/${encodeURIComponent(popupName)}`);
+            navigate(`/chat?chatboxname=${encodeURIComponent(popupName)}`);
             window.location.reload();
         })
         .catch(error => {
