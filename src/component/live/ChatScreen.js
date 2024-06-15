@@ -78,6 +78,12 @@ const ChatScreen = () => {
         }
     };
 
+    const handleKeyDown = (e) => {
+        if (e.key === "Enter") {
+            sendMessage();
+        }
+    };
+
     return (
         <>
             <div className="chat-screen">
@@ -100,6 +106,7 @@ const ChatScreen = () => {
                         placeholder="메시지를 입력하세요."
                         value={inputMessage}
                         onChange={(e) => setInputMessage(e.target.value)}
+                        onKeyDown={handleKeyDown} // Enter 키 이벤트 핸들러 추가
                     />
                     <button
                         className="chat-input-button"
