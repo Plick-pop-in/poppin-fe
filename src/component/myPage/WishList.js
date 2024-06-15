@@ -49,14 +49,12 @@ const WishList = () => {
                 <div className="list-space">
                     <div className="list-container">
                         {wish.map((popup) => (
-                            <div className="wish-box">
-                                <WishBox
-                                    popupId={popup.popupId}
-                                    image={popup.popupImage}
-                                    name={popup.popupName}
-                                    heart={popup.heart}
+                            <WishBox
+                                popupId={popup.popupId}
+                                image={popup.popupImage}
+                                name={popup.popupName}
+                                heart={popup.heart}
                             />
-                            </div>
                         ))}
                     </div>
                 </div>

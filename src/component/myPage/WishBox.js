@@ -19,13 +19,13 @@ const WishBox = (props) => {
             <div className="wish-box-content">
                 <div className="wish-box-basic-info">
                     {/* <img className="wish-box-ic-liked" src={require('../../assets/images/heartColor.png')} alt="heart_ic" /> */}
-                    <span className="heart-box" onClick={handleHeartClick}>
+                    <div className="heart-box" onClick={handleHeartClick}>
                         <Heart
                             likeCount={props.heart}
                             popupId={props.popupId}
                         />
-                    </span>
-                    <span className="wish-box-name">{props.name}</span>
+                    </div>
+                    <div className="wish-box-name">{props.name}</div>
                 </div>
                 <img className="wish-box-img" src={props.image} onClick={() => clickPopup(props)} alt="popup_image"/>
             </div>
