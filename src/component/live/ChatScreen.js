@@ -98,6 +98,7 @@ const ChatScreen = () => {
                     ))}
                 </div>
             </div>
+
             <div className="chat-input-wrapper">
                 <div className="chat-input">
                     <input
