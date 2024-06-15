@@ -159,20 +159,6 @@ const PopupFilter = ({onFilterChange}) => {
   //<-----------------------[렌더링]------------------------>
   return (
     <div className="filter-container">
-      <div className="filter-location">
-        <img
-          className="filter-img"
-          src={require("../../assets/images/spot.png")}
-        />
-        <span>서울, 대한민국</span>
-        <img
-          className="filter-img right"
-          src={require("../../assets/images/arrow.png")}
-        />
-      </div>
-
-      <hr />
-
       <div>
         {/* 카테고리 */}
         <div className="filter-inner">

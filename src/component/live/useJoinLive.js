@@ -4,10 +4,11 @@ import {useSelector} from "react-redux";
 import axios from "axios";
 import apiURLs from "../../apiURL";
 
-const useJoinLive=(popupId)=>{
-    const { isLogin, moveToLogin } = useCustomLogin();
+const useJoinLive=(popupId, popupName)=>{
+    const { isLogin, moveToLogin,moveToPath } = useCustomLogin();
     const loginInfo = useSelector(state => state.loginSlice);
 
+    console.log(popupName);
     const postAPI= async() =>{
         //await axios.post("http://localhost:8080/v1/chat/joinLive", new URLSearchParams({ userId: loginInfo.id, popupId: parseInt(popupId), minusPoint:100 }))
         await axios.post(apiURLs.joinLive, new URLSearchParams({ userId: loginInfo.id, popupId: parseInt(popupId), minusPoint:100 }))
@@ -23,7 +24,10 @@ const useJoinLive=(popupId)=>{
             }
             
             //여기에 redirect 페이지로 이동하면 될듯~!!
-
+            // Redirect to the chat page
+            console.log("popupName" + popupName)
+            moveToPath(`/chat/${encodeURIComponent(popupName)}`);
+            window.location.reload();
         })
         .catch(error => {
             console.error("Error:", error);
