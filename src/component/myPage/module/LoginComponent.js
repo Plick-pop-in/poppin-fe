@@ -40,15 +40,18 @@ function LoginComponent(props) {
         })
     }
 
+    // Enter 키를 눌렀을 때 로그인 시도
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            handleClickLogin(e);
+        }
+    }
+
     // 비밀번호를 잊으셨나요? 구현 ---------------------------
 const [isOpen, setIsOpen] = useState(false);
 
 const openModal = () => {
     setIsOpen(true);
-};
-
-const closeModal = () => {
-    setIsOpen(false);
 };
 
 const modalStyles = {
@@ -116,6 +119,11 @@ const handleSubmit = async (e) => {
     }
 };
 
+const closeModal = () => {
+    setEmailCheckResult("");
+    setIsOpen(false);
+};
+
     return (
         <div className="loginContainer">
             <div className="loginTitle">로그인</div>
@@ -127,6 +135,7 @@ const handleSubmit = async (e) => {
                 type={'text'}
                 value={loginParam.email}
                 onChange={handleChange}
+                onKeyDown={handleKeyDown}
                 placeholder="이메일"
             />
             <div className="loginLabel">비밀번호</div>
@@ -136,6 +145,7 @@ const handleSubmit = async (e) => {
                 type={'password'}
                 value={loginParam.password}
                 onChange={handleChange}
+                onKeyDown={handleKeyDown}
                 placeholder="비밀번호"
             />
             <div className="guideText" onClick={openModal}>비밀번호를 잊으셨냐요?</div>
