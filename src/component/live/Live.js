@@ -79,7 +79,6 @@ const Live = () => {
                 <div className="list-space">
                     <div className="list-container">
                         {live.map((popup) => (
-                            <div className="list-box">
                                 <LiveBox
                                     popupId = {popup.popupId}
                                     image={popup.popupImage}
@@ -90,7 +89,6 @@ const Live = () => {
                                     period={popup.popupPeriod}
                                     joinedPeople={popup.joinedPeopleCnt}
                                 />
-                            </div>
                         ))}
                     </div>
                 </div>

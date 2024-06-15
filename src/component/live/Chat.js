@@ -24,18 +24,17 @@ const Chat = () => {
                     <div className="chat-person">{joinedPeople}명이 와글와글</div>
                 </div>
             </div>
-            <div className="chat-white-background" style={{ marginBottom: "500px" }}>
+            <div className="chat-white-background">
                 <div style={{ display: "flex", flexDirection: "row" }}>
                     <div className="user-chat-list">
                         <div className="user-chat-container">
                             <ChatBox />
                         </div>
                     </div>
-                    <div style={{ marginLeft: "40px", marginTop: "33px" }}>
+                    <div style={{ marginLeft: "40px", marginTop: "33px"}}>
                         <ChatScreen />
                     </div>
                 </div>
-                <div className="footer-margin" style={{ marginTop: "500px" }} /> {/* 여기에 마진을 추가 */}
             </div>
         </div>
     );
