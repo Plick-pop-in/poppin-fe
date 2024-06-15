@@ -41,12 +41,10 @@ const Footer = () => {
                     <a href="/Map" className="footer-button" style={{ textDecoration: 'none' }}><strong>Map</strong></a>
                     <a href="/Live" className="footer-button" style={{ textDecoration: 'none' }}><strong>Live</strong></a>
                     <div className="mypage-buttons">
-                        <a href="/mypage" className="footer-button" style={{ textDecoration: 'none' }}><strong>Mypage</strong></a>
-                        {/* 추후에 링크 주소 보고 추가할 예정 */}
-                        <button className="footer-button">정보 수정</button>
-                        <button className="footer-button">찜 목록</button>
-                        <button className="footer-button">My payments</button>
-                        <button className="footer-button">나의 채팅</button>
+                        <a href="/UserInfo" className="footer-button" style={{ textDecoration: 'none' }}><strong>Mypage</strong></a>
+                        <a href="/UserInfo" className="footer-button" style={{ textDecoration: 'none' }}>정보 수정</a>
+                        <a href="/WishList" className="footer-button" style={{ textDecoration: 'none' }}>찜 목록</a>
+                        <a href="/MyChat" className="footer-button" style={{ textDecoration: 'none' }}>나의 채팅</a>
                     </div>
                 </div>
 
