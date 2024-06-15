@@ -11,6 +11,10 @@ const Chat = () => {
     const chatboxname = popupName || queryParams.get("chatboxname") || "채팅 이름 찾을 수 없음";
     const joinedPeople = queryParams.get("joinedPeople") || 100; // 기본값을 100으로 설정
 
+    const handleChatBoxClick = () => {
+        window.location.reload(); // 페이지를 새로고침
+    };
+
     console.log("chatboxname:", chatboxname);
     console.log("joinedPeople:", joinedPeople);
 
@@ -29,11 +33,11 @@ const Chat = () => {
                 <div style={{ display: "flex", flexDirection: "row" }}>
                     <div className="user-chat-list">
                         <div className="user-chat-container">
-                            <ChatBox />
+                            <ChatBox onClick={handleChatBoxClick} /> {/* 클릭 핸들러 추가 */}
                         </div>
                     </div>
                     <div style={{ marginLeft: "40px", marginTop: "33px"}}>
-                        <ChatScreen />
+                        <ChatScreen key={Date.now()} /> {/* 새로운 키 값 전달 */}
                     </div>
                 </div>
             </div>
