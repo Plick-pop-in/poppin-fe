@@ -1,28 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './css/Header.css';
-import {useSelector} from "react-redux"
+import { useSelector } from "react-redux";
 import LogoutComponent from '../myPage/module/LogoutComponenet';
 import useCustomLogin from '../myPage/module/useCustomLogin';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
-  const { isLogin, moveToLogin, moveToPath } = useCustomLogin()
+  const { isLogin, moveToLogin, moveToPath } = useCustomLogin();
+  const loginState = useSelector(state => state.loginSlice);
+
+  const [activeButton, setActiveButton] = useState('');
+
   const handleLogoClick = () => {
-    window.location.href = '/main'; 
+    window.location.href = '/main';
   };
 
-  const handleClickLogin = (e) => {
-    moveToLogin()
-  }
+  const handleClickLogin = () => {
+    moveToLogin();
+  };
 
-  const handleClickJoin = (e) => {
-    moveToPath("/Signup")
-  }
+  const handleClickJoin = () => {
+    moveToPath("/Signup");
+  };
 
-  //이메일이 있을 때와 없을 때(공백)
-  const loginState = useSelector(state => state.loginSlice)
-  const isPopupPage = useSelector(state => state.currentPage === 'popup');
-
-  console.log("loginState : ", loginState)
+  const handleButtonClick = (buttonName) => {
+    setActiveButton(buttonName);
+  };
 
   return (
     <header className="main-header">
@@ -31,24 +34,53 @@ const Header = () => {
           src="/images/popin.png"
           alt="Logo"
           onClick={handleLogoClick}
-          style={{ cursor: 'pointer' }} 
+          style={{ cursor: 'pointer' }}
         />
         <img src="/images/divider.png" alt="Divider" />
-        <div className="header-buttons">
-          <a href="/popup" className="header-button">Popup</a>
-          <a href="/map" className="header-button">Map</a>
-          <a href="/live" className={`header-button ${!isLogin ? 'with-margin' : ''}`}>Live</a>
-          {isLogin && <a href="/UserInfo" className="header-button with-margin">Mypage</a>}
+        <div className="header-buttons" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flex: 1 }}>
+          <div style={{ display: 'flex', gap: '20px' }}>
+            <Link
+              to="/popup"
+              className={`header-button ${activeButton === 'popup' ? 'active' : ''}`}
+              onClick={() => handleButtonClick('popup')}
+            >
+              Popup
+            </Link>
+            <Link
+              to="/map"
+              className={`header-button ${activeButton === 'map' ? 'active' : ''}`}
+              onClick={() => handleButtonClick('map')}
+            >
+              Map
+            </Link>
+            <Link
+              to="/live"
+              className={`header-button ${activeButton === 'live' ? 'active' : ''} ${!isLogin ? 'with-margin' : ''}`}
+              onClick={() => handleButtonClick('live')}
+            >
+              Live
+            </Link>
+          </div>
+          {isLogin && (
+            <div className="header-buttons" style={{ display: 'flex', alignItems: 'center', gap: '160px' }}>
+              <Link to="/UserInfo" className="header-button with-margin">Mypage</Link>
+              <LogoutComponent />
+            </div>
+          )}
+          {!loginState.email && (
+            <div className="header-buttons" style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+              <button className="header-button special-button" onClick={handleClickLogin}>
+                <strong>Sign In</strong>
+              </button>
+              <button className="header-button special-button" onClick={handleClickJoin}>
+                <strong>Join</strong>
+              </button>
+            </div>
+          )}
         </div>
-        {loginState.email ?
-        <><LogoutComponent></LogoutComponent></> :
-        <div className="header-buttons">
-          <button className="header-button special-button" onClick={handleClickLogin}><strong>Sign In</strong></button>
-          <button className="header-button special-button" onClick={handleClickJoin}><strong>Join</strong></button>
-        </div>
-        }
       </div>
     </header>
   );
 };
+
 export default Header;

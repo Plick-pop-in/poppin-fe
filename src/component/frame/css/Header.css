@@ -1,12 +1,13 @@
 .main-header {
   display: flex;
-  padding: 10px 10px 10px 50px;
+  padding: 10px 10px 10px 0; /* 왼쪽 padding 제거 및 필요에 따라 조절 */
   align-items: center;
   border-bottom: 1px solid #E6E8EC;
   position: sticky;
   top: 0;
   background-color: white;
   z-index: 1000;
+  width: 100%; /* 화면 전체 너비 차지하도록 설정 */
 }
 
 .header-content {
