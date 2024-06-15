@@ -8,7 +8,7 @@ const ChatScreen = () => {
     const [messages, setMessages] = useState([]);
     const [client, setClient] = useState(null);
     const [inputMessage, setInputMessage] = useState("");
-    const loginInfo = useSelector(state => state.login); // Redux store에서 로그인 정보 가져오기
+    const loginInfo = useSelector(state => state.loginSlice); // Redux store에서 로그인 정보 가져오기
     const dispatch = useDispatch();
 
     useEffect(() => {
