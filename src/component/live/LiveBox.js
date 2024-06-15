@@ -6,7 +6,7 @@ const LiveBox = (props) => {
     const navigate = useNavigate();
 
     const handleJoinClick = () => {
-        navigate(`/chat?chatboxname=${encodeURIComponent(props.name)}`);
+        navigate(`/chat?chatboxname=${encodeURIComponent(props.name)}&joinedPeople=${props.joinedPeople}`);
     };
 
     return (
