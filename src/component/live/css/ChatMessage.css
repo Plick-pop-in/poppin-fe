@@ -30,6 +30,11 @@
   margin-top: 5px;
 }
 
+.message-bubble.current-user {
+  background-color: #47ABD9; /* 변경할 배경색 */
+  color: white; /* 예시: 글자색 변경 */
+}
+
 .message-time {
   font-family: "Pretendard-Regular";
   font-size: 12px;
