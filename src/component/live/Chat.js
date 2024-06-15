@@ -2,12 +2,13 @@ import React from "react";
 import "./css/Chat.css";
 import ChatBox from "./ChatBox";
 import ChatScreen from "./ChatScreen";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 const Chat = () => {
     const location = useLocation();
+    const { popupName } = useParams(); // React Router의 useParams를 사용하여 URL 파라미터를 받아옴
     const queryParams = new URLSearchParams(location.search);
-    const chatboxname = queryParams.get("chatboxname");
+    const chatboxname = popupName || queryParams.get("chatboxname") || "채팅 이름 찾을 수 없음";
     const joinedPeople = queryParams.get("joinedPeople") || 100; // 기본값을 100으로 설정
 
     console.log("chatboxname:", chatboxname);
@@ -17,7 +18,7 @@ const Chat = () => {
         <div className="chat-page-background">
             <div className="chat-page-top">
                 <div className="chat-title">
-                    {chatboxname ? chatboxname : "채팅 이름 찾을 수 없음"}
+                    {chatboxname}
                 </div>
                 <div className="chat-join-info">
                     <img className="chat-ic-person" src={require('../../assets/images/ic_person.png')} alt="person icon" />

@@ -31,7 +31,7 @@ const AppRouter = () => {
                 <Route path="/Main" element={<Main />} />
                 <Route path="/KaKaoMap" element={<KakaoMap />} />
                 <Route path="/Live" element={<Live />} />
-                <Route path="/Chat" element={<Chat />} />
+                <Route path="/Chat/:popupName" element={<Chat />} />
                 <Route path="/Login" element={<Login />} />
                 <Route path="/Mypage" element={<Mypage />} />
                 <Route path="/UserInfo" element={<UserInfo />} />

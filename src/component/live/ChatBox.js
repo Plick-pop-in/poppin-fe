@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import './css/ChatBox.css';
 import axios from "axios";
+import { Link } from 'react-router-dom'; // React Router의 Link 컴포넌트 import
 import apiURLs from "../../apiURL";
 import { useSelector } from 'react-redux'; 
 
@@ -14,7 +15,7 @@ const ChatBox = () => {
             console.log("Fetching user chat list...");
             try {
                 const response = await axios.get(apiURLs.chatList, {
-                    params: { userId: loginState.id } // loginState에서 userId 가져오기
+                    params: { userId: loginState.id }
                 });
                 console.log("API response - user chat list:", response.data);
                 setChatList(response.data.data);
@@ -24,12 +25,12 @@ const ChatBox = () => {
         };
 
         fetchData();
-    }, [loginState.id]); // userId가 변경될 때마다 fetchData 호출
+    }, [loginState.id]);
 
     return (
         <div className="chat-message-list">
             {chatList.map((chat, index) => (
-                <div key={index} className="chat-message-box">
+                <Link key={index} to={`/chat/${encodeURIComponent(chat.popupName)}`} className="chat-message-box">
                     <div className="blue-rectangle">
                         <div className="white-inner-rectangle">
                             <img className="message-image" src={require('../../assets/images/ic_message.png')} alt="message-image" />
@@ -38,7 +39,7 @@ const ChatBox = () => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </Link>
             ))}
         </div>
     );
