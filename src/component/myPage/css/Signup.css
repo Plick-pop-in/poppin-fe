@@ -144,3 +144,8 @@
     margin-bottom: 10px;  /* 위쪽 마진 */
     margin-left: 5px;
 }
+
+.checkButton:hover, .loginLink:hover, .signupButton:hover{
+    filter: brightness(90%);
+    transform: scale(1.03);
+}

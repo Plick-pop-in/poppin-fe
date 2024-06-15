@@ -4,11 +4,12 @@
     background-color: #FCFCFD;
     padding-left: 60px;
     padding-right: 60px;
-    margin-bottom: 50px;
+    padding-top: 50px;
+    padding-bottom: 120px;
 }
 
 .main-contents {
-    margin-left: 30px;
+    margin-left: 60px;
 }
 
 .userinfo-content {
@@ -74,10 +75,6 @@
     border-radius: 90px;
 }
 
-.charge-btn:hover, .changeButton:hover, .checkButton:hover {
-    background-color: #0056b3; /* 마우스를 올렸을 때 버튼의 배경색을 변경합니다 */
-}
-
 .modal-cancle {
     float: right;
 }
@@ -134,4 +131,9 @@
 .modal-logo {
     width: 150px; /* 원하는 크기로 조절합니다. */
     height: auto; /* 가로 사이즈에 맞추어 세로 사이즈를 자동 조절합니다. */
+}
+
+.charge-btn:hover, .changeButton:hover{
+    filter: brightness(90%);
+    transform: scale(1.03);
 }
