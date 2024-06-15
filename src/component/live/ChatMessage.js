@@ -8,8 +8,8 @@ const ChatMessage = ({ nickname, message, time }) => {
 
     return (
         <div className="chat-message">
-            <span className="user-nickname">{nickname}</span>
-            <div className="chat-align">
+            {!isCurrentUser && <span className="user-nickname">{nickname}</span>}
+            <div className={`chat-align ${isCurrentUser ? 'chat-right' : 'chat-left'}`}>
                 <div className={`message-bubble ${isCurrentUser ? 'current-user' : ''}`}>
                     {message}
                 </div>
