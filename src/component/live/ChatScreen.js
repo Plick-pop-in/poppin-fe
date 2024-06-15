@@ -78,34 +78,45 @@ const ChatScreen = () => {
         }
     };
 
+    const handleKeyDown = (e) => {
+        if (e.key === "Enter") {
+            sendMessage();
+        }
+    };
+
     return (
-        <div className="chat-screen">
-            <div className="chat-messages">
-                {messages.map((message, index) => (
-                    <ChatMessage
-                        key={index}
-                        nickname={message.sender}
-                        message={message.content}
-                        time={new Date(message.time).toLocaleString()} // ISO 8601 형식을 파싱하여 표시
+        <>
+            <div className="chat-screen">
+                <div className="chat-messages">
+                    {messages.map((message, index) => (
+                        <ChatMessage
+                            key={index}
+                            nickname={message.sender}
+                            message={message.content}
+                            time={new Date(message.time).toLocaleString()} // ISO 8601 형식을 파싱하여 표시
+                        />
+                    ))}
+                </div>
+            </div>
+            <div className="chat-input-wrapper">
+                <div className="chat-input">
+                    <input
+                        className="chat-input-box"
+                        type="text"
+                        placeholder="메시지를 입력하세요."
+                        value={inputMessage}
+                        onChange={(e) => setInputMessage(e.target.value)}
+                        onKeyDown={handleKeyDown} // Enter 키 이벤트 핸들러 추가
                     />
-                ))}
+                    <button
+                        className="chat-input-button"
+                        aria-label="전송"
+                        onClick={sendMessage}
+                    >
+                    </button>
+                </div>
             </div>
-            <div className="chat-input">
-                <input
-                    className="chat-input-box"
-                    type="text"
-                    placeholder="메시지를 입력하세요."
-                    value={inputMessage}
-                    onChange={(e) => setInputMessage(e.target.value)}
-                />
-                <button
-                    className="chat-input-button"
-                    aria-label="전송"
-                    onClick={sendMessage}
-                >
-                </button>
-            </div>
-        </div>
+        </>
     );
 };
 

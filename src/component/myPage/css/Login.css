@@ -87,7 +87,6 @@
     margin-bottom: 10px;
 }
 
-
 .loginButton{
     border: 1px solid #47ABD9;
     background-color: #47ABD9;
@@ -133,4 +132,9 @@
     align-items: center; /* 자식 요소들을 수직 중앙 정렬 */
     padding-left: 20px;
     margin-bottom: 30px;
+}
+
+.loginButton:hover, .guideText:hover, .signupLink:hover, .kakaoContainer:hover, .modal-cancle:hover{
+    filter: brightness(90%);
+    transform: scale(1.03);
 }
