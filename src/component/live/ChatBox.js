@@ -30,7 +30,7 @@ const ChatBox = () => {
     return (
         <div className="chat-message-list">
             {chatList.map((chat, index) => (
-                <Link key={index} to={`/chat/${encodeURIComponent(chat.popupName)}`} className="chat-message-box">
+                <Link key={index} to={`/chat?chatboxname=${encodeURIComponent(chat.popupName)}`} className="chat-message-box">
                     <div className="blue-rectangle">
                         <div className="white-inner-rectangle">
                             <img className="message-image" src={require('../../assets/images/ic_message.png')} alt="message-image" />
