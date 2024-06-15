@@ -51,8 +51,7 @@
 
 .date-button,
 .region-button,
-.category-button,
-.subregion-button {
+.category-button {
     width: 111px;
     height: 46px;
     margin-left: 20px;
@@ -64,6 +63,20 @@
     cursor: pointer;
     transition: color 0.2s;
     font-size: 17px;
+}
+
+.subregion-button {
+    width: 90px;
+    height: 40px;
+    margin-left: 20px;
+    border: none;
+    border-radius: 30px;
+    background-color: transparent;
+    color: #000000;
+    text-align: center;
+    cursor: pointer;
+    transition: color 0.2s;
+    font-size: 14px;
 }
 
 .search-button {
