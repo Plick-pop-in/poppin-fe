@@ -335,8 +335,7 @@ const Map = () => {
                     <button
                         className={"search-button"}
                         onClick={handleSearch}
-                    >
-                        <img className="ic-search" src="/images/ic_search.png" alt="ic-search" />
+                    ><img className="ic-search" src="/images/ic_search.png" alt="ic-search" />
                         조회
                     </button>
                 </div>
