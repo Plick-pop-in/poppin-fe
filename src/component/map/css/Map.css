@@ -95,6 +95,13 @@
     font-size: 20px;
 }
 
+.search-button img {
+    margin-right: 5px; /* Adjust the gap between image and text */
+}
+
+.button-text {
+    margin-left: 5px; /* Adjust the gap between image and text */
+}
 .date-button.selected,
 .region-button.selected,
 .category-button.selected,
