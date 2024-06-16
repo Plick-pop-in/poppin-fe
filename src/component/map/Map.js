@@ -332,11 +332,9 @@ const Map = () => {
                     </div>
                 </div>
                 <div className="search">
-                    <button
-                        className={"search-button"}
-                        onClick={handleSearch}
-                    ><img className="ic-search" src="/images/ic_search.png" alt="ic-search" />
-                        조회
+                    <button className="search-button" type="button" onClick={handleSearch}>
+                        <img src={require("../../assets/images/ic_search.png")} alt="ic_search" />
+                        <span className="button-text">조회</span>
                     </button>
                 </div>
             </div>
