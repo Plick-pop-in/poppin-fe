@@ -32,7 +32,7 @@ export const getAccessToken = async (authCode) => {
 
 export const getMemberWithAccessToken = async (accessToken) => {
     try {
-        const res = await axios.get(`http://www.plick.shop/v1/user/kakao?accessToken=${accessToken}`);
+        const res = await axios.get(`http://plick.shop/v1/user/kakao?accessToken=${accessToken}`);
         return res.data;
     } catch (error) {
         console.error('Error fetching member information:', error);
