@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const rest_api_key = '6f093e4c7a2e3031f6778b220ce263d7';
-const redirect_uri = 'http://d2vr7xh1eokzzb.cloudfront.net/KakaoRedirect';
+const redirect_uri = 'http://plick.shop/KakaoRedirect';
 const auth_code_path = 'https://kauth.kakao.com/oauth/authorize';
 const access_token_url = 'https://kauth.kakao.com/oauth/token';
 
