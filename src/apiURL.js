@@ -18,7 +18,7 @@ const apiURLs = {
     modifyNickname: "http://plick/v1/user/modify-nickname",
     chargePoint: "http://plick/v1/user/charge-point",
     map: "http://plick.shop/v1/popup/map",
-    signup: "http://www.plick.shop/v1/user/signup",
+    signup: "http://plick.shop/v1/user/signup",
     checkEmail: "http://plick.shop/v1/user/check-email",
     checkNickname: "http://plick.shop/v1/user/check-nickname",
     modifyNickname: "http://plick.shop/v1/user/modify-nickname",
