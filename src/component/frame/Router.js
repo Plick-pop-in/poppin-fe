@@ -37,7 +37,7 @@ const AppRouter = () => {
                 <Route path="/UserInfo" element={<UserInfo />} />
                 <Route path="/WishList" element={<WishList />} />
                 <Route path="/MyChat" element={<MyChat />} />
-                <Route path="KakaoRedirect" element={<KakaoRedirect/>} />
+                <Route path="/KakaoRedirect" element={<KakaoRedirect />} />
                 <Route path="/" element={<Navigate to="/Main" />} /> {/* '/'로 접속 시 '/main'으로 이동 */}
             </Routes>
             <Footer />

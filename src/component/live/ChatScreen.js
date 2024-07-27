@@ -5,8 +5,11 @@ import ChatMessage from "./ChatMessage";
 import "./css/ChatScreen.css";
 
 const ChatScreen = ({ roomId }) => {
+const ChatScreen = ({ roomId }) => {
     const [messages, setMessages] = useState([]);
     const [client, setClient] = useState(null);
+    const loginInfo = useSelector(state => state.loginSlice);
+    const [inputMessage, setInputMessage] = useState("");
     const loginInfo = useSelector(state => state.loginSlice);
     const [inputMessage, setInputMessage] = useState("");
 
@@ -16,6 +19,7 @@ const ChatScreen = ({ roomId }) => {
         }
 
         const newClient = new Client({
+            brokerURL: "ws://plick.shop:8080/ws",
             brokerURL: "ws://plick.shop:8080/ws",
             debug: function (str) {
                 console.log(str);
@@ -69,6 +73,7 @@ const ChatScreen = ({ roomId }) => {
                 body: JSON.stringify(chatMessage),
             });
             setInputMessage("");
+            setInputMessage("");
         } else {
             console.error("STOMP 연결 실패");
         }
@@ -104,12 +109,16 @@ const ChatScreen = ({ roomId }) => {
                         value={inputMessage}
                         onChange={(e) => setInputMessage(e.target.value)}
                         onKeyDown={handleKeyDown}
+                        value={inputMessage}
+                        onChange={(e) => setInputMessage(e.target.value)}
+                        onKeyDown={handleKeyDown}
                     />
                     <button
                         className="chat-input-button"
                         aria-label="전송"
                         onClick={sendMessage}
                     >
+                        전송
                     </button>
                 </div>
             </div>

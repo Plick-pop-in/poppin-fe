@@ -21,11 +21,6 @@ function KakaoRedirect(props) {
                     const memberInfo = await getMemberWithAccessToken(accessToken);
                     console.log("Member info received:", memberInfo);
                     dispatch(login(memberInfo));
-                    // if (memberInfo && memberInfo.social) {
-                    //     moveToPath("/Mypage");
-                    // } else {
-                    //     moveToPath("/Main");
-                    // }
                     moveToPath("/Main");
                 }
             } catch (error) {
