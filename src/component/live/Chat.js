@@ -32,7 +32,7 @@ const Chat = () => {
                         </div>
                     </div>
                     <div style={{ marginLeft: "40px", marginTop: "33px"}}>
-                        <ChatScreen roomId={chatboxname} /> {/* 새로운 키 값 전달 */}
+                        <ChatScreen roomId={chatboxname} key={Date.now()}/> {/* 새로운 키 값 전달 */}
                     </div>
                 </div>
             </div>

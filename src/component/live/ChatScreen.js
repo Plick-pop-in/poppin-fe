@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import ChatMessage from "./ChatMessage";
 import "./css/ChatScreen.css";
 
-const ChatScreen = ({ roomId }) => {
+const ChatScreen = ({ roomId, key }) => {
     const [messages, setMessages] = useState([]);
     const [client, setClient] = useState(null);
     const loginInfo = useSelector(state => state.loginSlice);
@@ -46,7 +46,7 @@ const ChatScreen = ({ roomId }) => {
                 newClient.deactivate();
             }
         };
-    }, [roomId]); // roomId가 변경될 때마다 useEffect 다시 실행
+    }, [roomId, key]); // roomId가 변경될 때마다 useEffect 다시 실행
 
     useEffect(() => {
         console.log("렌더링된 messages 상태: ", messages);
