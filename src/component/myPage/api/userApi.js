@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_SERVER_HOST = 'http://plick.shop';
+const API_SERVER_HOST = 'http://plick.shop:8080';
 //const API_SERVER_HOST = 'http://localhost:8080';
 
 
