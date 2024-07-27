@@ -26,12 +26,22 @@ const Live = () => {
         }
     };
 
+    const handleKeyDown = (e) => {
+        if (e.key === "Enter") {
+            onSearchBtn();
+        }
+    };
+
+    const onSearchBtn=()=>{
+        onChangeKeyword();
+        getLive();
+    }
+
     // 검색 버튼 클릭 시 함수 호출
     const onChangeKeyword = () => {
         const keywordInput = document.getElementById('keywordValue').value;
         setKeywordValue(keywordInput);
         sessionStorage.setItem("keywordValue", keywordInput);
-        getLive();
     };
 
     //<----------------------------------------------------------------->//
@@ -67,8 +77,9 @@ const Live = () => {
                     id="keywordValue"
                     value={keywordValue} // 입력된 키워드 표시
                     onChange ={onChangeKeyword}
+                    onKeyDown={handleKeyDown}
                 ></input>
-                <button className="searchBtn" type="button" onClick={onChangeKeyword}> {/* 2. 검색 버튼 클릭 시 API 호출 */}
+                <button className="searchBtn" type="button" onClick={onSearchBtn}> {/* 2. 검색 버튼 클릭 시 API 호출 */}
                     <img src={require("../../assets/images/searchBtn.png")} alt="Search Button" />
                 </button>
             </div>
