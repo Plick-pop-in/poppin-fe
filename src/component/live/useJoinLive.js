@@ -24,7 +24,9 @@ const useJoinLive=(popupId, popupName)=>{
                 
                 // Redirect to the chat page
                 navigate(`/chat?chatboxname=${encodeURIComponent(popupName)}`);
-
+            }else if(response.data.data.isJoin){
+                alert(message);
+                navigate(`/chat?chatboxname=${encodeURIComponent(popupName)}`);
             }else{
                 alert(message);
                 navigate(`/UserInfo`);
