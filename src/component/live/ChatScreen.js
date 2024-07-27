@@ -16,7 +16,7 @@ const ChatScreen = ({ key }) => {
         }
 
         const newClient = new Client({
-            brokerURL: "ws://plick.shop/ws", // WebSocket 주소
+            brokerURL: "ws://plick.shop:8080/ws", // WebSocket 주소
             debug: function (str) {
                 console.log(str);
             },
