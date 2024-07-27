@@ -5,11 +5,8 @@ import ChatMessage from "./ChatMessage";
 import "./css/ChatScreen.css";
 
 const ChatScreen = ({ roomId }) => {
-const ChatScreen = ({ roomId }) => {
     const [messages, setMessages] = useState([]);
     const [client, setClient] = useState(null);
-    const loginInfo = useSelector(state => state.loginSlice);
-    const [inputMessage, setInputMessage] = useState("");
     const loginInfo = useSelector(state => state.loginSlice);
     const [inputMessage, setInputMessage] = useState("");
 
@@ -19,7 +16,6 @@ const ChatScreen = ({ roomId }) => {
         }
 
         const newClient = new Client({
-            brokerURL: "ws://plick.shop:8080/ws",
             brokerURL: "ws://plick.shop:8080/ws",
             debug: function (str) {
                 console.log(str);
@@ -33,6 +29,7 @@ const ChatScreen = ({ roomId }) => {
             console.log("웹소켓 연결 성공");
             setClient(newClient);
 
+            // 각 채팅방에 대한 고유 주제를 구독
             newClient.subscribe(`/sub/chat/room/${roomId}`, (message) => {
                 handleMessage(message);
             });
@@ -49,7 +46,11 @@ const ChatScreen = ({ roomId }) => {
                 newClient.deactivate();
             }
         };
-    }, [roomId]);
+    }, [roomId]); // roomId가 변경될 때마다 useEffect 다시 실행
+
+    useEffect(() => {
+        console.log("렌더링된 messages 상태: ", messages);
+    }, [messages]);
 
     const handleMessage = (message) => {
         console.log("받은 메시지: ", message.body);
@@ -63,16 +64,14 @@ const ChatScreen = ({ roomId }) => {
                 type: "MESSAGE",
                 content: inputMessage,
                 sender: loginInfo ? loginInfo.nickname : 'Anonymous',
-                time: new Date().toISOString(),
-                roomId: roomId // roomId 추가
+                time: new Date().toISOString()
             };
 
             console.log("보내는 메시지: ", chatMessage);
             client.publish({
-                destination: '/pub/chat/sendMessage',
+                destination: `/pub/chat/${roomId}/sendMessage`, // 각 채팅방에 맞는 주제에 메시지 전송
                 body: JSON.stringify(chatMessage),
             });
-            setInputMessage("");
             setInputMessage("");
         } else {
             console.error("STOMP 연결 실패");
@@ -109,16 +108,11 @@ const ChatScreen = ({ roomId }) => {
                         value={inputMessage}
                         onChange={(e) => setInputMessage(e.target.value)}
                         onKeyDown={handleKeyDown}
-                        value={inputMessage}
-                        onChange={(e) => setInputMessage(e.target.value)}
-                        onKeyDown={handleKeyDown}
                     />
                     <button
                         className="chat-input-button"
-                        aria-label="전송"
                         onClick={sendMessage}
                     >
-                        전송
                     </button>
                 </div>
             </div>
