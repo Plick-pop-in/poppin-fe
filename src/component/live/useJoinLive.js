@@ -21,14 +21,18 @@ const useJoinLive=(popupId, popupName)=>{
             if( !response.data.data.isJoin && response.data.data.isMoney){   //결제 완료
                 const leftPoint = response.data.data.leftPoint;
                 alert(message + "\n 남은 포인트는 " + leftPoint + " points 입니다.");
+                
+                // Redirect to the chat page
+                navigate(`/chat?chatboxname=${encodeURIComponent(popupName)}`);
+
             }else{
                 alert(message);
+                navigate(`/UserInfo`);
             }
             
             //여기에 redirect 페이지로 이동하면 될듯~!!
             // Redirect to the chat page
             console.log("popupName" + popupName)
-            navigate(`/chat?chatboxname=${encodeURIComponent(popupName)}`);
             window.location.reload();
         })
         .catch(error => {
