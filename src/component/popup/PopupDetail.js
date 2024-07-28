@@ -171,8 +171,20 @@ const PopupDetail = () => {
             <a href={popup.popupPageLink}>{popup.popupName}</a>
           </div>
         </div>
+        <div
+        id="map"
+        style={{
+          width: "90%",
+          height: "500px",
+          margin: "0 auto", // 가로 중앙 정렬
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          marginBottom : "40px",
+          marginTop : "40px"
+        }}
+      ></div>
       </div>
-      <div id="map" style={{ width: "100%", height: "400px" }}></div>
     </div>
   );
 };
