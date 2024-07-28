@@ -113,7 +113,6 @@ const PopupDetail = () => {
       }
     });
   }, [popup]);
-
   
   //데이터가 없는 경우 처리
   if (!popup) {
@@ -126,34 +125,27 @@ const PopupDetail = () => {
       <div className="popupDetail">
         <div>
           <div className="detail-heart">
-            <Heart
-              likeCount={popup.likeCount}
-              popupId={popupId} />
+            <Heart likeCount={popup.likeCount} popupId={popupId} />
           </div>
           <div className="display-flex">
             <div className="detail-name">{popup.popupName}</div>
-            <div className="detail-live" >
+            <div className="detail-live">
               <button onClick={() => joinLive()}>Live chat</button>
             </div>
           </div>
           <div className="detail-date">{popup.popupPeriod}</div>
           <div className="detail-lo">
-            <img src={require("../../assets/images/location.png")} />
+            <img src={require("../../assets/images/location.png")} alt="Location icon" />
             {popup.popupCity} {popup.popupLocal} {popup.popupLocation}
           </div>
         </div>
 
         <br />
-        {/* 슬라이드 배너 */}
         <div className="swiper-container">
           <Swiper {...params}>
             {popup.popupImgUrls.map((imageUrl, index) => (
               <SwiperSlide key={index}>
-                <img
-                  className="swiper-img"
-                  src={imageUrl}
-                  alt={`Image ${index}`}
-                />
+                <img className="swiper-img" src={imageUrl} alt={`Image ${index}`} />
               </SwiperSlide>
             ))}
           </Swiper>
