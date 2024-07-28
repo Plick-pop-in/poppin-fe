@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Client } from '@stomp/stompjs';
 import { useSelector } from 'react-redux';
 import ChatMessage from "./ChatMessage";
+import axios from 'axios';
 import "./css/ChatScreen.css";
 
 const ChatScreen = ({ roomId, key }) => {
@@ -11,6 +12,23 @@ const ChatScreen = ({ roomId, key }) => {
     const [inputMessage, setInputMessage] = useState("");
 
     useEffect(() => {
+        const fetchMessages = async () => {
+            try {
+                const response = await axios.get(`/chat/${roomId}/getHistory`);
+                if (Array.isArray(response.data)) {
+                    setMessages(response.data);
+                } else {
+                    console.error("Expected an array but got:", response.data);
+                    setMessages([]);
+                }
+            } catch (error) {
+                console.error("Failed to fetch chat history", error);
+                setMessages([]);
+            }
+        };
+
+        fetchMessages();
+
         if (client && client.connected) {
             client.deactivate();
         }
@@ -26,17 +44,16 @@ const ChatScreen = ({ roomId, key }) => {
         });
 
         newClient.onConnect = () => {
-            console.log("웹소켓 연결 성공");
+            console.log("WebSocket connected");
             setClient(newClient);
 
-            // 각 채팅방에 대한 고유 주제를 구독
             newClient.subscribe(`/sub/chat/room/${roomId}`, (message) => {
                 handleMessage(message);
             });
         };
 
         newClient.onStompError = (error) => {
-            console.error("웹소켓 연결 에러:", error);
+            console.error("WebSocket error:", error);
         };
 
         newClient.activate();
@@ -46,16 +63,12 @@ const ChatScreen = ({ roomId, key }) => {
                 newClient.deactivate();
             }
         };
-    }, [roomId, key]); // roomId가 변경될 때마다 useEffect 다시 실행
-
-    useEffect(() => {
-        console.log("렌더링된 messages 상태: ", messages);
-    }, [messages]);
+    }, [roomId, key]);
 
     const handleMessage = (message) => {
-        console.log("받은 메시지: ", message.body);
+        console.log("Received message: ", message.body);
         const body = JSON.parse(message.body);
-        setMessages(prevMessages => [...prevMessages, body]);
+        setMessages(prevMessages => Array.isArray(prevMessages) ? [...prevMessages, body] : [body]);
     };
 
     const sendMessage = () => {
@@ -67,14 +80,14 @@ const ChatScreen = ({ roomId, key }) => {
                 time: new Date().toISOString()
             };
 
-            console.log("보내는 메시지: ", chatMessage);
+            console.log("Sending message: ", chatMessage);
             client.publish({
-                destination: `/pub/chat/${roomId}/sendMessage`, // 각 채팅방에 맞는 주제에 메시지 전송
+                destination: `/pub/chat/${roomId}/sendMessage`,
                 body: JSON.stringify(chatMessage),
             });
             setInputMessage("");
         } else {
-            console.error("STOMP 연결 실패");
+            console.error("STOMP connection failed");
         }
     };
 
@@ -88,7 +101,7 @@ const ChatScreen = ({ roomId, key }) => {
         <>
             <div className="chat-screen">
                 <div className="chat-messages">
-                    {messages.map((message, index) => (
+                    {Array.isArray(messages) && messages.map((message, index) => (
                         <ChatMessage
                             key={index}
                             nickname={message.sender}
@@ -104,7 +117,7 @@ const ChatScreen = ({ roomId, key }) => {
                     <input
                         className="chat-input-box"
                         type="text"
-                        placeholder="메시지를 입력하세요."
+                        placeholder="Enter your message."
                         value={inputMessage}
                         onChange={(e) => setInputMessage(e.target.value)}
                         onKeyDown={handleKeyDown}
@@ -113,6 +126,7 @@ const ChatScreen = ({ roomId, key }) => {
                         className="chat-input-button"
                         onClick={sendMessage}
                     >
+                        Send
                     </button>
                 </div>
             </div>

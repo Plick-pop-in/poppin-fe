@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Heart from "../heart/Heart";
@@ -51,6 +51,8 @@ const PopupDetail = () => {
   const { popupId } = useParams();
   const [popup, setPopup] = useState(null);
   const joinLive = useJoinLive(popupId, popup?.popupName);
+  const kakao = useRef(null);
+  const mapRef = useRef(null);
 
   //JSON 파일에서 해당 데이터 불러오기
   useEffect(() => {
@@ -72,6 +74,47 @@ const PopupDetail = () => {
     fetchPopupDetail();
   }, [popupId]);
 
+  // 카카오 지도 표시
+  useEffect(() => {
+    if (!window.kakao || !window.kakao.maps) {
+      console.error("Kakao Maps API is not loaded.");
+      return;
+    }
+
+    window.kakao.maps.load(() => {
+      const container = document.getElementById("map");
+      const options = {
+        center: new window.kakao.maps.LatLng(37.5665, 126.9780),
+        level: 8,
+      };
+      const map = new window.kakao.maps.Map(container, options);
+      kakao.current = window.kakao;
+      mapRef.current = map;
+
+      if (popup) {
+        const popupAddress = `${popup.popupCity} ${popup.popupLocal} ${popup.popupLocation}`;
+        const geocoder = new kakao.current.maps.services.Geocoder();
+        geocoder.addressSearch(popupAddress, (result, status) => {
+          if (status === kakao.current.maps.services.Status.OK) {
+            const coords = new kakao.current.maps.LatLng(result[0].y, result[0].x);
+            const marker = new kakao.current.maps.Marker({
+              map: mapRef.current,
+              position: coords,
+            });
+            const infowindow = new kakao.current.maps.InfoWindow({
+              content: `<div style="width:150px;text-align:center;padding:6px 0;">${popup.popupName}</div>`,
+            });
+            infowindow.open(mapRef.current, marker);
+            mapRef.current.setCenter(coords);
+          } else {
+            console.error("Geocoder failed:", status);
+          }
+        });
+      }
+    });
+  }, [popup]);
+
+  
   //데이터가 없는 경우 처리
   if (!popup) {
     console.log("NO Popup DATA!!!!!!!");
@@ -83,14 +126,14 @@ const PopupDetail = () => {
       <div className="popupDetail">
         <div>
           <div className="detail-heart">
-            <Heart 
+            <Heart
               likeCount={popup.likeCount}
               popupId={popupId} />
           </div>
           <div className="display-flex">
             <div className="detail-name">{popup.popupName}</div>
             <div className="detail-live" >
-              <button onClick={()=>joinLive()}>Live chat</button>
+              <button onClick={() => joinLive()}>Live chat</button>
             </div>
           </div>
           <div className="detail-date">{popup.popupPeriod}</div>
@@ -133,6 +176,7 @@ const PopupDetail = () => {
           </div>
         </div>
       </div>
+      <div id="map" style={{ width: "100%", height: "400px" }}></div>
     </div>
   );
 };
