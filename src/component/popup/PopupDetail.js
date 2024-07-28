@@ -83,6 +83,11 @@ const PopupDetail = () => {
 
     window.kakao.maps.load(() => {
       const container = document.getElementById("map");
+      if (!container) {
+        console.error("Map container is not found");
+        return;
+      }
+
       const options = {
         center: new window.kakao.maps.LatLng(37.5665, 126.9780),
         level: 8,
@@ -113,7 +118,6 @@ const PopupDetail = () => {
       }
     });
   }, [popup]);
-  
   //데이터가 없는 경우 처리
   if (!popup) {
     console.log("NO Popup DATA!!!!!!!");
