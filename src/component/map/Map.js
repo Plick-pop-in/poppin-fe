@@ -44,7 +44,7 @@ const Map = () => {
         const url = `http://www.plick.shop/popupdetail/${popup.popupId}`;
         window.location.href = url;
     };
-    
+
     const handleSearch = () => {
         const searchData = {
             fashion: selectedCategories.includes("fashion"),
@@ -81,7 +81,7 @@ const Map = () => {
                         console.log("주소: ", popupAddress);
 
                         const geocoder = new kakao.current.maps.services.Geocoder();
-                        geocoder.addressSearch(popupAddress, function(result, status) {
+                        geocoder.addressSearch(popupAddress, function (result, status) {
                             console.log("Geocoder 호출 결과:", result, status); // 디버깅용 로그
 
                             if (status === kakao.current.maps.services.Status.OK) {
@@ -93,13 +93,14 @@ const Map = () => {
                                 });
 
                                 var infowindow = new kakao.current.maps.InfoWindow({
-                                    content: `<div style="width:150px;text-align:center;padding:6px 0;">${popup.popupName}</div>`
+                                    content: `<div style="width:150px;text-align:center;padding:6px 0; cursor: pointer;" onclick="window.location.href='http://www.plick.shop/popupdetail/${popup.popupId}'">${popup.popupName}</div>`
                                 });
                                 infowindow.open(mapRef.current, marker);
 
-
                                 // 마커에 클릭 이벤트 리스너 추가
                                 kakao.current.maps.event.addListener(marker, 'click', () => handleMarkerClick(popup));
+                                // 인포윈도우에 클릭 이벤트 리스너 추가
+                                kakao.current.maps.event.addListener(infowindow, 'click', () => handleMarkerClick(popup));
 
                                 mapRef.current.setCenter(coords);
                             } else {
@@ -180,10 +181,10 @@ const Map = () => {
                                 전체
                             </button>
                             <button
-                            className={"region-button " + (selectedRegion === "서울" ? "selected" : "")}
-                            onClick={() => handleRegionSelection("서울")}
+                                className={"region-button " + (selectedRegion === "서울" ? "selected" : "")}
+                                onClick={() => handleRegionSelection("서울")}
                             >
-                            서울특별시
+                                서울특별시
                             </button>
                             <button
                                 className={"region-button " + (selectedRegion === "경기" ? "selected" : "")}
