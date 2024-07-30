@@ -39,6 +39,12 @@ const Map = () => {
         setSelectedSubregion(subregion);
     };
 
+    const handleMarkerClick = (popup) => {
+        // 마커 클릭 시 해당 URL로 이동
+        const url = `http://www.plick.shop/popupdetail/${popup.popupId}`;
+        window.location.href = url;
+    };
+    
     const handleSearch = () => {
         const searchData = {
             fashion: selectedCategories.includes("fashion"),
@@ -90,6 +96,10 @@ const Map = () => {
                                     content: `<div style="width:150px;text-align:center;padding:6px 0;">${popup.popupName}</div>`
                                 });
                                 infowindow.open(mapRef.current, marker);
+
+
+                                // 마커에 클릭 이벤트 리스너 추가
+                                kakao.current.maps.event.addListener(marker, 'click', () => handleMarkerClick(popup));
 
                                 mapRef.current.setCenter(coords);
                             } else {
