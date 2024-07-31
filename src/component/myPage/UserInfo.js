@@ -144,6 +144,50 @@ const UserInfo = () => {
             alert("비밀번호 변경에 실패했습니다.");
         }
     };
+    
+    // 카카오페이 호출 메소드 --------------------------
+    const [amount, setAmount] = useState(0);
+
+    const handleChargeChange = (e) => {
+        setAmount(e.target.value);
+    }
+
+    const clickChargeBtn = async () => {
+        const amount = parseInt(prompt("충전할 포인트를 입력하세요: ", "0"), 10);
+
+        if (isNaN(amount) || amount <= 0) {
+            alert("유효한 포인트를 입력하세요.");
+            return;
+        }
+
+        const { IMP } = window;
+        IMP.init('imp18513031'); // 가맹점 번호 지정
+        IMP.request_pay({
+            pg : 'kakaopay.TC0ONETIME', // 결제 방식 지정
+            pay_method : 'card',
+            merchant_uid : `mid_${new Date().getTime()}`, // 현재 시간
+            name : 'live_chating',
+            amount : amount, // 충전 금액
+            buyer_name : loginInfo.nickname // 충전 요청한 유저의 닉네임
+        }, function(rsp) {
+            if (rsp.success) {
+                //axios.get(`http://localhost:8080/v1/verify/` + rsp.imp_uid)
+                axios.get(apiURLs.kakaopay + rsp.imp_uid)
+                .then((response) => {
+                    console.log(response);
+                    const newPoints = response.data.amount;
+                    // Redux 상태 업데이트
+                    dispatch(updatePoints(newPoints));
+                    alert(`포인트가 성공적으로 충전되었습니다. 새로운 포인트: ${newPoints}`);
+                }).catch((error) => {
+                    console.error(error);
+                });
+            } else {
+                alert("결제가 실패하였습니다.");
+                console.log(rsp);
+            }
+        });
+    }
 
     return (
         <div className="userinfo-container">
@@ -157,7 +201,7 @@ const UserInfo = () => {
                 <div style={{ color: '#B1B5C3', fontSize: '12px', marginBottom: '10px' }}>나의 포인트</div>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                     <span className="point" style={{ color: '#000000', fontSize: '16px' }}>{loginInfo.point.toLocaleString()}</span>
-                    <button className="charge-btn" onClick={handlePointCharge}>충전하기</button>
+                    <button className="charge-btn" onClick={clickChargeBtn}>충전하기</button>
                 </div>
             </div>
             <div style={{ display: 'flex', width: '100%' }}>

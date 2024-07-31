@@ -21,6 +21,7 @@ const apiURLs = {
     wishlist : "http://plick.shop:8080/v1/popup/wishlist",
     modifyPassword : "http://plick.shop:8080/v1/user/modify-password",
     setPassword : "http://plick.shop:8080/v1/user/set-password",
+    kakaopay : "http://plick.shop:8080/v1/verify/"
     // 다른 링크들도 필요에 따라 추가 가능
   };
   
